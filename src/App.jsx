@@ -1,13 +1,20 @@
 import CustomNavbar from "./Components/Navbar"
+import Hero from "./Components/Hero"
+import Services from "./Components/Services"
+import About from "./Components/About"
+import Footer from "./Components/Footer"
+import BackgroundShapes from "./Components/BackgroundShapes"
 import './App.css'
 
 const App = () => {
   return (
     <>
+      <BackgroundShapes />
       <CustomNavbar />
-      <div className="content-area">
-        {/* Your page content goes here */}
-      </div>
+      <Hero />
+      <Services />
+      <About />
+      <Footer />
     </>
   )
 }

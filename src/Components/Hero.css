@@ -1,0 +1,186 @@
+/* Hero Section Container */
+.hero-section {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 40px 20px;
+}
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2; /* Sits on top of overlay */
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hero-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.hero-left {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #dbc712 0%, #f5f5f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block; /* Puts it on a new line or keeps it inline depending on preference */
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+  margin-bottom: 30px;
+  max-width: 90%;
+}
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: #061bdb;
+  color: white;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-img-element {
+  margin-left: 1rem;
+  max-width: 70%;
+  height: 90%;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;
+  gap: 60px;
+  background: transparent;
+  /* backdrop-filter: blur(10px); */
+  padding: 30px 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 0 auto; /* Center the container itself if needed */
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3a7bd5; /* Accent color */
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ccc;
+}
+
+/* Vertical divider line between stats */
+.stat-divider {
+  width: 1px;
+  height: 50px;
+  background-color: rgba(255,255,255,0.2);
+}
+
+/* Animation Keyframes */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+/* --- Responsive Design (Mobile) --- */
+@media (max-width: 968px) {
+  .hero-main {
+    flex-direction: column-reverse; /* Puts image on top, text on bottom on mobile */
+    text-align: center;
+  }
+
+  .hero-left {
+    margin: 0 auto;
+  }
+  
+  .hero-description {
+    margin: 0 auto 30px auto;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-stats {
+    width: 100%;
+    gap: 30px;
+    padding: 20px;
+  }
+  
+  .stat-divider {
+      display: none; /* Hide dividers on small screens */
+  }
+}

@@ -1,91 +1,9 @@
 * {
   font-family: 'Poppins', sans-serif;
 }
-
-.custom-navbar {
-  background: linear-gradient(135deg, 
-    rgba(139, 92, 246, 0.15) 0%, 
-    rgba(99, 102, 241, 0.12) 50%,
-    rgba(139, 92, 246, 0.15) 100%) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 25px;
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1), 
-              0 4px 16px rgba(139, 92, 246, 0.08),
-              inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  padding: 0.85rem 2rem;
-  margin: 1rem auto;
-  max-width: 95%;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+.custom-navbar{
+  background-color: rgb(240, 240, 240) !important;
 }
-
-.custom-navbar::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(139, 92, 246, 0.1), 
-    rgba(99, 102, 241, 0.1), 
-    transparent);
-  transition: left 0.6s ease;
-}
-
-.custom-navbar:hover::before {
-  left: 100%;
-}
-
-.custom-navbar:hover {
-  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15), 
-              0 6px 20px rgba(139, 92, 246, 0.12),
-              inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  border-color: rgba(139, 92, 246, 0.3);
-}
-
-.navbar-brand-custom {
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  font-weight: 700;
-  font-size: 1.6rem;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0.25rem 0;
-  position: relative;
-  letter-spacing: -0.3px;
-}
-
-.navbar-brand-custom:hover {
-  transform: translateY(-2px) scale(1.02);
-  filter: brightness(1.1);
-}
-
-.navbar-brand-custom::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6, #a855f7);
-  border-radius: 2px;
-  transition: width 0.4s ease;
-}
-
-.navbar-brand-custom:hover::after {
-  width: 100%;
-}
-
 .navbar-logo {
   height: 45px;
   width: auto;
@@ -109,8 +27,8 @@
 }
 
 .nav-link-custom {
-  color: #4b5563 !important;
-  font-weight: 500;
+  color: #0e0f0f !important;
+  font-weight: 600;
   margin: 0 0.35rem;
   padding: 0.65rem 1.25rem !important;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
