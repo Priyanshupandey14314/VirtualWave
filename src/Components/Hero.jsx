@@ -28,8 +28,9 @@ const AnimatedCounter = ({ target, duration = 2000, suffix = "" }) => {
 };
 const Hero = () => {
   return (
-    <section className="hero-section" style={{ backgroundImage: `url(${bgImage})` }}>
-      <div className="hero-overlay"></div> 
+    <section className="hero-section"
+     style={{  }}>
+      {/* <div className="hero-overlay"></div>  */}
       <div className="hero-container">
         <div className="hero-main">
           

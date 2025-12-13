@@ -51,21 +51,6 @@ const About = () => {
                 in success.
               </p>
             </div>
-
-            <div className="about-stats">
-              <div className="stat-box">
-                <span className="stat-number">10+</span>
-                <span className="stat-label">Years Experience</span>
-              </div>
-              <div className="stat-box">
-                <span className="stat-number">500+</span>
-                <span className="stat-label">Projects Completed</span>
-              </div>
-              <div className="stat-box">
-                <span className="stat-number">98%</span>
-                <span className="stat-label">Client Satisfaction</span>
-              </div>
-            </div>
           </div>
 
           <div className="about-features">

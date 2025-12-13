@@ -1,21 +1,23 @@
-import CustomNavbar from "./Components/Navbar"
-import Hero from "./Components/Hero"
-import Services from "./Components/Services"
-import About from "./Components/About"
-import Footer from "./Components/Footer"
-import BackgroundShapes from "./Components/BackgroundShapes"
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Pages/Home';
+import Services from './Pages/Services';
+import About from './Pages/About';
+import Contact from './Pages/Contact';
+import Blogs from './Pages/Blogs';
+import './App.css';
 
 const App = () => {
   return (
-    <>
-      <BackgroundShapes />
-      <CustomNavbar />
-      <Hero />
-      <Services />
-      <About />
-      <Footer />
-    </>
-  )
-}
-export default App
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/blogs" element={<Blogs />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
