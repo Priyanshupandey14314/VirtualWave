@@ -1,0 +1,223 @@
+/* Service Modal - Full Page Overlay */
+.service-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.service-modal-content {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative;
+    /* Laptop: Centered Card look */
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .service-modal-content {
+        width: 90%;
+        max-width: 1000px;
+        height: 90vh;
+        border-radius: 16px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        /* Header fixed, content scrolls */
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+/* Close Button */
+.modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: background 0.2s;
+}
+
+.modal-close-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Modal Layout - Mobile First (Full Column) */
+.modal-image-section {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.modal-details-section {
+    padding: 2rem;
+    overflow-y: auto;
+    flex: 1;
+    background: #f8fafc;
+}
+
+@media (min-width: 768px) {
+    .modal-image-section {
+        width: 40%;
+        height: 100%;
+    }
+
+    .modal-details-section {
+        width: 60%;
+        padding: 3rem;
+    }
+}
+
+/* Typography & Content */
+.modal-category {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.modal-title {
+    font-size: 2rem;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.modal-description {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    white-space: pre-wrap;
+    /* Preserve paragraphs */
+}
+
+/* Features List */
+.modal-features-title {
+    font-size: 1.2rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.modal-features-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+}
+
+.modal-feature-item {
+    background: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    color: #334155;
+    font-weight: 500;
+}
+
+.modal-feature-item::before {
+    content: "✓";
+    color: #10b981;
+    font-weight: bold;
+    margin-right: 0.75rem;
+}
+
+@media (min-width: 768px) {
+    .modal-features-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Contact Actions */
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.2s;
+    text-decoration: none;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-whatsapp {
+    background: #25D366;
+    color: white;
+}
+
+.btn-contact {
+    background: #2563eb;
+    color: white;
+}
+
+/* Admin/Edit Mode Helper */
+.no-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e2e8f0;
+    color: #94a3b8;
+    font-size: 3rem;
+}

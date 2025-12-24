@@ -1,0 +1,503 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './Admin.css';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+const API_BASE_URL = 'http://localhost/virtual_wave_api';
+
+const AdminDashboard = () => {
+  const [activeSection, setActiveSection] = useState('dashboard');
+  const [services, setServices] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) navigate('/admin');
+    fetchData();
+  }, []);
+
+  // API_BASE_URL moved to top of file
+
+
+  const fetchData = async () => {
+    try {
+      const [servicesRes, blogsRes] = await Promise.all([
+        axios.get(`${API_BASE_URL}/services.php`),
+        axios.get(`${API_BASE_URL}/blogs.php`)
+      ]);
+      setServices(servicesRes.data);
+      setBlogs(blogsRes.data);
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/admin');
+  };
+
+  const handleDeleteService = async (id) => {
+    if (window.confirm('Are you sure you want to delete this service?')) {
+      try {
+        await axios.delete(`${API_BASE_URL}/services.php?id=${id}`); // PHP delete via query param
+        fetchData();
+      } catch (err) {
+        alert('Error deleting service');
+      }
+    }
+  };
+
+  const handleDeleteBlog = async (id) => {
+    if (window.confirm('Are you sure you want to delete this blog?')) {
+      try {
+        await axios.delete(`${API_BASE_URL}/blogs.php?id=${id}`);
+        fetchData();
+      } catch (err) {
+        alert('Error deleting blog');
+      }
+    }
+  };
+
+  return (
+    <div className="admin-dashboard">
+      <aside className="admin-sidebar">
+        <div className="sidebar-header">
+          <h2>VirtualWave Admin</h2>
+        </div>
+        <nav className="sidebar-nav">
+          <button
+            className={activeSection === 'dashboard' ? 'active' : ''}
+            onClick={() => setActiveSection('dashboard')}
+          >
+            📊 Dashboard
+          </button>
+          <button
+            className={activeSection === 'services' ? 'active' : ''}
+            onClick={() => setActiveSection('services')}
+          >
+            🛠️ Services
+          </button>
+          <button
+            className={activeSection === 'blogs' ? 'active' : ''}
+            onClick={() => setActiveSection('blogs')}
+          >
+            ✍️ Blogs
+          </button>
+        </nav>
+      </aside>
+
+      <div className="admin-main">
+        <header className="admin-header">
+          <h1>{activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}</h1>
+          <button onClick={handleLogout} className="logout-btn">Logout</button>
+        </header>
+
+        <main className="admin-content">
+          {activeSection === 'dashboard' && <DashboardOverview services={services} blogs={blogs} />}
+          {activeSection === 'services' && (
+            <ServicesManagement
+              services={services}
+              onDelete={handleDeleteService}
+              fetchData={fetchData}
+            />
+          )}
+          {activeSection === 'blogs' && (
+            <BlogsManagement
+              blogs={blogs}
+              onDelete={handleDeleteBlog}
+              fetchData={fetchData}
+            />
+          )}
+        </main>
+      </div>
+    </div>
+  );
+};
+
+const DashboardOverview = ({ services, blogs }) => (
+  <div className="dashboard-overview">
+    <div className="stats-grid">
+      <div className="stat-card">
+        <h3>Total Services</h3>
+        <p className="stat-number">{services.length}</p>
+      </div>
+      <div className="stat-card">
+        <h3>Total Blogs</h3>
+        <p className="stat-number">{blogs.length}</p>
+      </div>
+    </div>
+    <div className="recent-activity">
+      <h3>Recent Services</h3>
+      <ul>
+        {services.slice(0, 5).map(service => (
+          <li key={service._id}>{service.title}</li>
+        ))}
+      </ul>
+      <h3>Recent Blogs</h3>
+      <ul>
+        {blogs.slice(0, 5).map(blog => (
+          <li key={blog._id}>{blog.title}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+);
+
+const ServicesManagement = ({ services, onDelete, fetchData }) => {
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    detailedDescription: '',
+    category: '',
+    icon: '',
+    features: '',
+    image: null
+  });
+
+  const handleEdit = (service) => {
+    setEditingId(service.id || service._id);
+    setFormData({
+      title: service.title,
+      description: service.description,
+      detailedDescription: service.detailedDescription || '',
+      category: service.category,
+      icon: service.icon || '',
+      features: Array.isArray(service.features) ? service.features.join(', ') : service.features,
+      image: null // Keep null, only update if new image selected
+    });
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      description: '',
+      detailedDescription: '',
+      category: '',
+      icon: '',
+      features: '',
+      image: null
+    });
+    setEditingId(null);
+    setShowForm(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    if (editingId) {
+      data.append('id', editingId);
+    }
+
+    Object.keys(formData).forEach(key => {
+      if (key === 'image' && formData[key]) {
+        data.append(key, formData[key]);
+      } else if (key !== 'image') {
+        data.append(key, formData[key]);
+      }
+    });
+
+    try {
+      await axios.post(`${API_BASE_URL}/services.php`, data);
+      resetForm();
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      alert('Error saving service: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  return (
+    <div className="management-section">
+      <div className="section-header">
+        <h2>Services Management</h2>
+        <button onClick={() => {
+          if (showForm) resetForm();
+          else setShowForm(true);
+        }} className="add-btn">
+          {showForm ? 'Cancel' : 'Add Service'}
+        </button>
+      </div>
+
+      {showForm && (
+        <form onSubmit={handleSubmit} className="admin-form" encType="multipart/form-data">
+          <h3 style={{ marginBottom: '20px', color: 'var(--primary-color)' }}>
+            {editingId ? 'Edit Service' : 'Add New Service'}
+          </h3>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Category</label>
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                required
+              >
+                <option value="">Select Category</option>
+                <option value="marketing">Marketing</option>
+                <option value="creative">Creative</option>
+                <option value="technical">Technical</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Description (Short)</label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              required
+              rows="3"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Detailed Description (Full Page Content)</label>
+            <textarea
+              value={formData.detailedDescription}
+              onChange={(e) => setFormData({ ...formData, detailedDescription: e.target.value })}
+              className="admin-textarea"
+              rows="10"
+              placeholder="Enter detailed description here (HTML tags allowed)..."
+              style={{ width: '100%', padding: '10px', marginBottom: '20px', borderRadius: '4px', border: '1px solid #ddd' }}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Features (comma separated, optional)</label>
+            <input
+              type="text"
+              value={formData.features}
+              onChange={(e) => setFormData({ ...formData, features: e.target.value })}
+              placeholder="Feature 1, Feature 2, Feature 3"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Image {editingId && '(Leave empty to keep current)'}</label>
+            <input
+              type="file"
+              onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })}
+              accept="image/*"
+            />
+          </div>
+          <button type="submit" className="submit-btn">{editingId ? 'Update Service' : 'Add Service'}</button>
+        </form>
+      )}
+
+      <div className="items-list">
+        {services.map(service => (
+          <div key={service._id || service.id} className="item-card">
+            <div className="item-info">
+              {service.image && <img src={`http://localhost/virtual_wave_api/${service.image}`} alt={service.title} className="item-thumbnail" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }} />}
+              <h4>{service.title}</h4>
+              <p>{service.category}</p>
+            </div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button onClick={() => handleEdit(service)} className="btn  edit-btn" style={{ padding: '0.4rem 0.8rem', border: '1px solid #4f46e5', color: '#4f46e5', background: 'white', borderRadius: '4px', cursor: 'pointer' }}>
+                <i className="bi bi-pencil-square"></i>
+              </button>
+              <button onClick={() => onDelete(service._id || service.id)} className="delete-btn">
+                <i className="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const BlogsManagement = ({ blogs, onDelete, fetchData }) => {
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState({
+    title: '',
+    excerpt: '',
+    content: '',
+    category: '',
+    author: '',
+    readTime: '',
+    tags: '',
+    image: null
+  });
+
+  const handleEdit = (blog) => {
+    setEditingId(blog.id || blog._id);
+    setFormData({
+      title: blog.title,
+      excerpt: blog.excerpt,
+      content: blog.content,
+      category: blog.category,
+      author: blog.author,
+      readTime: blog.readTime,
+      tags: Array.isArray(blog.tags) ? blog.tags.join(', ') : blog.tags,
+      image: null
+    });
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const resetForm = () => {
+    setFormData({ title: '', excerpt: '', content: '', category: '', author: '', readTime: '', tags: '', image: null });
+    setEditingId(null);
+    setShowForm(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    if (editingId) {
+      data.append('id', editingId);
+    }
+
+    Object.keys(formData).forEach(key => {
+      if (key === 'tags') data.append(key, formData[key]);
+      else if (key === 'image' && formData[key]) data.append(key, formData[key]);
+      else if (key !== 'image') data.append(key, formData[key]);
+    });
+
+    try {
+      await axios.post(`${API_BASE_URL}/blogs.php`, data);
+      resetForm();
+      fetchData();
+    } catch (err) {
+      alert('Error saving blog');
+    }
+  };
+
+  return (
+    <div className="management-section">
+      <div className="section-header">
+        <h2>Blogs Management</h2>
+        <button onClick={() => {
+          if (showForm) resetForm();
+          else setShowForm(true);
+        }} className="add-btn">
+          {showForm ? 'Cancel' : 'Add Blog'}
+        </button>
+      </div>
+
+      {showForm && (
+        <form onSubmit={handleSubmit} className="admin-form" encType="multipart/form-data">
+          <h3 style={{ marginBottom: '20px', color: 'var(--primary-color)' }}>
+            {editingId ? 'Edit Blog' : 'Add New Blog'}
+          </h3>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Author</label>
+              <input
+                type="text"
+                value={formData.author}
+                onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                required
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label>Excerpt</label>
+            <textarea
+              value={formData.excerpt}
+              onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Content (Rich Text disabled temporarily)</label>
+            <textarea
+              value={formData.content}
+              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+              rows="15"
+              placeholder="Enter HTML or text content..."
+              style={{ width: '100%', padding: '10px' }}
+            />
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Category</label>
+              <input
+                type="text"
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Read Time</label>
+              <input
+                type="text"
+                value={formData.readTime}
+                onChange={(e) => setFormData({ ...formData, readTime: e.target.value })}
+                placeholder="5 min read"
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label>Tags (comma separated)</label>
+            <input
+              type="text"
+              value={formData.tags}
+              onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+              placeholder="Tag 1, Tag 2, Tag 3"
+            />
+          </div>
+          <div className="form-group">
+            <label>Image {editingId && '(Leave empty to keep current)'}</label>
+            <input
+              type="file"
+              onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })}
+              accept="image/*"
+            />
+          </div>
+          <button type="submit" className="submit-btn">{editingId ? 'Update Blog' : 'Add Blog'}</button>
+        </form>
+      )}
+
+      <div className="items-list">
+        {blogs.map(blog => (
+          <div key={blog._id || blog.id} className="item-card">
+            <div className="item-info">
+              {blog.image && <img src={`http://localhost/virtual_wave_api/${blog.image}`} alt={blog.title} className="item-thumbnail" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }} />}
+              <h4>{blog.title}</h4>
+              <p>{blog.author} • {blog.category}</p>
+            </div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button onClick={() => handleEdit(blog)} className="btn btn-sm" style={{ padding: '0.4rem 0.8rem', border: '1px solid #4f46e5', color: '#4f46e5', background: 'white', borderRadius: '4px', cursor: 'pointer' }}>
+                <i className="bi bi-pencil-square"></i>
+              </button>
+              <button onClick={() => onDelete(blog._id || blog.id)} className="delete-btn">
+                <i className="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default AdminDashboard;

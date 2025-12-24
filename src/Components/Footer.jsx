@@ -1,5 +1,6 @@
 import './Footer.css';
 import logo from '../assets/logo.png';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -48,6 +49,7 @@ const Footer = () => {
               <li><a href="#about">About Us</a></li>
               <li><a href="#contact">Contact</a></li>
               <li><a href="#blogs">Blogs</a></li>
+              <li><Link to="/admin">Admin Login</Link></li>
             </ul>
           </div>
 

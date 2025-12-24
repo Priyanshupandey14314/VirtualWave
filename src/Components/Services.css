@@ -1,17 +1,18 @@
 :root {
   --bg-dark: #f8f9fa;
-  --text-main: #212529;
+  --text-main: #0f0f0f;
   --text-muted: #6c757d;
-  --neon-color: #007bff;
+  --neon-color: #ff0077;
   --card-bg: rgba(255, 255, 255, 0.9);
   --border-color: rgba(0, 123, 255, 0.2);
 }
 
 .services-section {
   padding: 80px 20px;
-  background: linear-gradient(135deg, rgba(0, 123, 255, 0.05) 0%, rgba(23, 162, 184, 0.05) 100%);
+  /* background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%); */
   color: var(--text-main);
-  overflow: hidden; /* Hide overflow for carousel */
+  overflow: hidden;
+  /* Hide overflow for carousel */
 }
 
 .services-section::before {
@@ -33,7 +34,7 @@
 /* --- Header --- */
 .services-header {
   text-align: center;
-  color: black;
+  color: rgba(12, 13, 123, 0.9);
   margin-bottom: 60px;
 }
 
@@ -43,6 +44,7 @@
   color: var(--text-main);
   margin-bottom: 15px;
 }
+
 .services-subtitle {
   color: var(--text-muted);
   font-size: 1.1rem;
@@ -59,7 +61,7 @@
 }
 
 .carousel-viewport {
-  overflow: hidden;
+  /* overflow: hidden; */
   width: 100%;
   padding: 20px 0;
 }
@@ -76,42 +78,48 @@
 }
 
 /* --- Card Styling --- */
+/* --- Card Styling (Glassmorphism Match) --- */
 .service-card {
   position: relative;
-  background:rgba(247, 163, 163, 0.1);
-  border: 1px solid rgba(226, 205, 21, 0.37);
+  background: rgba(255, 255, 255, 0.1);
+  /* Transparent Glass */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-  padding: 30px;
-  height: 380px;
+  height: 480px;
+  /* Increased height to accommodate full image */
+  padding: 0;
+  /* Remove padding to allow image to be full width */
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
   overflow: hidden;
+  /* Ensure image stays within border radius */
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  cursor: pointer;
+  text-align: left;
+  /* Left align everything */
 }
 
 .service-card:hover {
-  transform: translateY(-10px);
-  border-color: var(--neon-color);
-  box-shadow: 0 10px 30px -10px var(--neon-color);
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 15px 40px rgba(23, 32, 165, 0.212);
 }
 
-/* Glow Effect inside card */
-.card-bg-glow {
+/* Gradients for different "feel" if needed, but keeping it clean like screenshot */
+.service-card::before {
+  content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, var(--neon-color) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
   z-index: 0;
-}
-
-.service-card:hover .card-bg-glow {
-  opacity: 0.1;
+  pointer-events: none;
 }
 
 .card-content {
@@ -120,35 +128,107 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 24px;
+  /* Add padding here for content */
 }
 
+/* Image Top Half */
+.card-image-wrapper {
+  width: 100%;
+  height: 220px;
+  /* Match blog card height approximately */
+  object-fit: contain;
+  overflow: hidden;
+  border-radius: 0;
+  /* Remove border radius as parent handles it */
+  margin-bottom: 10px;
+  background: transparent;
+  padding: 0;
+}
+
+/* Icon style fallback (if used elsewhere) */
 .card-icon-wrapper {
-  width: 70px;
-  height: 70px;
-  border-radius: 12px;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  transition: transform 0.3s ease;
+  margin-bottom: 25px;
+  backdrop-filter: blur(5px);
+  padding: 10px;
 }
 
-.service-card:hover .card-icon-wrapper {
-  transform: scale(1.1) rotate(5deg);
+.card-image-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Cover for full image look */
+  transition: transform 0.2s ease-in-out;
+}
+
+.service-card:hover .card-image-top {
+  transform: scale(1.05);
+}
+
+.card-icon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .card-title {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 15px;
+  color: #1d1a25;
+}
+
+.card-description {
+  color: #1b1a1a;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: auto;
+}
+
+/* Features List - Points without background */
+.card-features-list {
+  display: flex;
+  flex-direction: column;
+  /* Stack vertically for points */
+  gap: 5px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.feature-pill {
+  font-size: 0.9rem;
+  background: transparent;
+  /* No background */
+  color: #333;
+  padding: 0;
+  border-radius: 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Add bullet point */
+.feature-pill::before {
+  content: '→';
+  color: #921f1f;
+  /* Use neon color for bullet */
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 .card-description {
   color: var(--text-muted);
   font-size: 0.95rem;
   line-height: 1.6;
-  flex-grow: 1; /* Pushes button to bottom */
+  flex-grow: 1;
   margin-bottom: 20px;
 }
 
@@ -157,9 +237,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: transparent;
+  background: transparent !important;
+  /* Force transparent */
   border: none;
-  color:rgb(19, 25, 33);
+  color: rgb(19, 25, 33);
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
@@ -177,7 +258,7 @@
 
 /* --- Navigation Buttons --- */
 .nav-btn {
-  background:rgb(19, 25, 33,0.1);
+  background: rgb(19, 25, 33, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   width: 50px;
@@ -195,7 +276,6 @@
 
 .nav-btn:hover {
   background: rgba(221, 11, 57, 0.185);
-  
   border-color: transparent;
   transform: scale(1.1);
 }
@@ -227,12 +307,14 @@
 
 /* --- Responsive Breakpoints --- */
 @media (max-width: 768px) {
-  .services-title { font-size: 2.2rem; }
-  
+  .services-title {
+    font-size: 2.2rem;
+  }
+
   .carousel-wrapper {
     position: relative;
   }
-  
+
   /* Hide side arrows on mobile, use Swipe instead */
   .nav-btn {
     display: none;

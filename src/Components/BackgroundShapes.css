@@ -21,7 +21,7 @@
 .shape-1 {
   width: 400px;
   height: 400px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #6e6ee4, #2f3aa1);
   top: -100px;
   left: -100px;
   animation-delay: 0s;
@@ -30,7 +30,7 @@
 .shape-2 {
   width: 500px;
   height: 500px;
-  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+  background: linear-gradient(135deg, #5a31b9, #3c7cb1);
   top: 20%;
   right: -150px;
   animation-delay: 2s;
@@ -39,7 +39,7 @@
 .shape-3 {
   width: 350px;
   height: 350px;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: linear-gradient(135deg, #a855f7, #1a28e9);
   bottom: 10%;
   left: 5%;
   animation-delay: 4s;
@@ -92,15 +92,20 @@
 }
 
 @keyframes floatShape {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
   }
+
   25% {
     transform: translate(30px, -40px) scale(1.1);
   }
+
   50% {
     transform: translate(-20px, 30px) scale(0.9);
   }
+
   75% {
     transform: translate(40px, 20px) scale(1.05);
   }
@@ -113,10 +118,15 @@
     opacity: 0.3;
   }
 
-  .shape-1, .shape-2, .shape-3, .shape-4, .shape-5,
-  .shape-6, .shape-7, .shape-8 {
+  .shape-1,
+  .shape-2,
+  .shape-3,
+  .shape-4,
+  .shape-5,
+  .shape-6,
+  .shape-7,
+  .shape-8 {
     width: 250px;
     height: 250px;
   }
 }
-

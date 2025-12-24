@@ -4,6 +4,9 @@ import Services from './Pages/Services';
 import About from './Pages/About';
 import Contact from './Pages/Contact';
 import Blogs from './Pages/Blogs';
+import BlogDetails from './Pages/BlogDetails';
+import AdminLogin from './Components/AdminLogin';
+import AdminDashboard from './Components/AdminDashboard';
 import './App.css';
 
 const App = () => {
@@ -15,6 +18,9 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/:id" element={<BlogDetails />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );

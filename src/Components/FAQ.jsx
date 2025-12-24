@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Container, Row, Col, Accordion } from 'react-bootstrap';
 import './FAQ.css';
 
 const faqs = [
@@ -35,58 +36,37 @@ const faqs = [
 ];
 
 const FAQ = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
-
-  const toggleFAQ = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
   return (
     <section className="faq-section py-5" id="faq">
-      <div className="container">
-        <div className="row justify-content-center mb-5">
-          <div className="col-12 text-center">
-            <h2 className="display-4 fw-bold text-white mb-3">
+      <Container>
+        <Row className="justify-content-center mb-5">
+          <Col xs={12} className="text-center">
+            <h2 className="display-4 fw-bold text-dark mb-3">
               Frequently Asked <span className="gradient-text-faq">Questions</span>
             </h2>
-            <p className="lead text-muted mx-auto" style={{maxWidth: '600px'}}>
+            <p className="lead text-dark mx-auto" style={{ maxWidth: '600px' }}>
               Find answers to common questions about our services and processes.
             </p>
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row justify-content-center">
-          <div className="col-lg-8">
-            <div className="accordion" id="faqAccordion">
-              {faqs.map((faq, index) => (
-                <div key={faq.id} className="accordion-item faq-item">
-                  <h2 className="accordion-header" id={`heading${faq.id}`}>
-                    <button
-                      className={`accordion-button ${activeIndex === index ? '' : 'collapsed'} faq-button`}
-                      type="button"
-                      onClick={() => toggleFAQ(index)}
-                      aria-expanded={activeIndex === index}
-                      aria-controls={`collapse${faq.id}`}
-                    >
-                      {faq.question}
-                    </button>
-                  </h2>
-                  <div
-                    id={`collapse${faq.id}`}
-                    className={`accordion-collapse collapse ${activeIndex === index ? 'show' : ''}`}
-                    aria-labelledby={`heading${faq.id}`}
-                    data-bs-parent="#faqAccordion"
-                  >
-                    <div className="accordion-body faq-body">
-                      {faq.answer}
-                    </div>
-                  </div>
-                </div>
+        <Row className="justify-content-center">
+          <Col lg={8}>
+            <Accordion className="faq-accordion">
+              {faqs.map((faq) => (
+                <Accordion.Item key={faq.id} eventKey={faq.id.toString()} className="faq-item">
+                  <Accordion.Header className="faq-question">
+                    {faq.question}
+                  </Accordion.Header>
+                  <Accordion.Body className="faq-answer">
+                    {faq.answer}
+                  </Accordion.Body>
+                </Accordion.Item>
               ))}
-            </div>
-          </div>
-        </div>
-      </div>
+            </Accordion>
+          </Col>
+        </Row>
+      </Container>
     </section>
   );
 };

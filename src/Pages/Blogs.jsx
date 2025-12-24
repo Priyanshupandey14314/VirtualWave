@@ -1,23 +1,163 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import CustomNavbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import BackgroundShapes from "../Components/BackgroundShapes";
+import './Blogs.css';
 
 const BlogsPage = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get('http://localhost/virtual_wave_api/blogs.php');
+        if (Array.isArray(response.data)) {
+          setBlogPosts(response.data);
+        } else {
+          console.error('API returned non-array data:', response.data);
+          setBlogPosts([]);
+        }
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlogs();
+  }, []);
+
+  const categories = [
+    { id: 'all', name: 'All Posts', count: blogPosts.length },
+    { id: 'marketing', name: 'Marketing', count: blogPosts.filter(p => p.category === 'marketing').length },
+    { id: 'advertising', name: 'Advertising', count: blogPosts.filter(p => p.category === 'advertising').length },
+    { id: 'content', name: 'Content', count: blogPosts.filter(p => p.category === 'content').length },
+    { id: 'technology', name: 'Technology', count: blogPosts.filter(p => p.category === 'technology').length },
+    { id: 'seo', name: 'SEO', count: blogPosts.filter(p => p.category === 'seo').length },
+    { id: 'branding', name: 'Branding', count: blogPosts.filter(p => p.category === 'branding').length },
+    { id: 'sales', name: 'Sales', count: blogPosts.filter(p => p.category === 'sales').length },
+    { id: 'design', name: 'Design', count: blogPosts.filter(p => p.category === 'design').length }
+  ];
+
+  const filteredPosts = selectedCategory === 'all'
+    ? blogPosts
+    : blogPosts.filter(post => post.category === selectedCategory);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <>
       <BackgroundShapes />
       <CustomNavbar />
-      <div style={{ padding: '100px 20px', textAlign: 'center', minHeight: '80vh' }}>
-        <h1 style={{ color: '#007bff', marginBottom: '20px' }}>Our Blog</h1>
-        <p style={{ fontSize: '1.2rem', color: '#6c757d', maxWidth: '600px', margin: '0 auto' }}>
-          Stay updated with the latest trends in digital marketing, technology, and business growth strategies.
-        </p>
-        <div style={{ marginTop: '40px' }}>
-          <p style={{ fontSize: '1.1rem', color: '#6c757d' }}>
-            Blog posts coming soon! Check back for valuable insights and tips.
-          </p>
+      <section className="blogs-section">
+        <div className="blogs-container">
+          <div className="blogs-header">
+            <h1 className="blogs-title">
+              Our <span className="gradient-text-blogs">Blog</span>
+            </h1>
+            <p className="blogs-subtitle">
+              Insights, trends, and expert advice on digital marketing and business growth
+            </p>
+          </div>
+
+          <div className="blogs-content">
+            <aside className="blogs-sidebar">
+              <div className="sidebar-categories">
+                <h3 className="sidebar-title">Categories</h3>
+                <ul className="category-list">
+                  {categories.map(category => (
+                    <li key={category.id}>
+                      <button
+                        className={`category-btn ${selectedCategory === category.id ? 'active' : ''}`}
+                        onClick={() => setSelectedCategory(category.id)}
+                      >
+                        <span className="category-name">{category.name}</span>
+                        <span className="category-count">({category.count})</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="sidebar-featured">
+                <h3 className="sidebar-title">Featured Topics</h3>
+                <div className="featured-tags">
+                  {['Digital Marketing', 'SEO', 'Social Media', 'Content Strategy', 'PPC Advertising'].map(tag => (
+                    <span key={tag} className="tag-item">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </aside>
+
+            <main className="blogs-main">
+              <div className="posts-count">
+                <p>Showing {filteredPosts.length} of {blogPosts.length} articles</p>
+              </div>
+
+              <div className="blog-posts-grid">
+                {filteredPosts.map(post => (
+                  <article key={post.id} className="blog-post-card">
+                    <div className="post-image">
+                      <div className="image-placeholder">
+                        {post.image ? (
+                          <img
+                            src={post.image.includes('http') ? post.image : `http://localhost/virtual_wave_api/${post.image}`}
+                            alt={post.title}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="fallback-img">VirtualWave</div>' }}
+                          />
+                        ) : (
+                          <div className="fallback-img">VirtualWave</div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="post-content">
+                      <div className="post-category">
+                        <span className="category-badge">{post.category}</span>
+                      </div>
+
+                      <h2 className="post-title">{post.title}</h2>
+                      <p className="post-excerpt">{post.excerpt}</p>
+
+                      <div className="post-meta">
+                        <div className="meta-info">
+                          <span className="author">By {post.author}</span>
+                          <span className="date">{new Date(post.created_at || Date.now()).toLocaleDateString()}</span>
+                          <span className="read-time">{post.readTime}</span>
+                        </div>
+                      </div>
+
+                      <button
+                        className="read-more-btn"
+                        onClick={() => navigate(`/blogs/${post.id}`)}
+                      >
+                        Read More
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              {filteredPosts.length === 0 && (
+                <div className="no-posts">
+                  <p>No articles found in this category.</p>
+                  <button onClick={() => setSelectedCategory('all')}>
+                    View All Posts
+                  </button>
+                </div>
+              )}
+            </main>
+          </div>
         </div>
-      </div>
+      </section>
       <Footer />
     </>
   );

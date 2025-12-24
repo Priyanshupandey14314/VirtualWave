@@ -3,7 +3,9 @@
 }
 .custom-navbar{
   /* background-color: rgb(240, 240, 240) !important; */
-  border-bottom: 2px inset rgb(10, 10, 10);
+  border-bottom: 2px inset rgba(6, 95, 155, 0.479);
+  border-radius: 20px;
+  box-shadow: 1px 0.2px rgba(13, 31, 187, 0.603);
 }
 .navbar-logo {
   height: 45px;
@@ -18,17 +20,8 @@
   filter: drop-shadow(0 4px 12px rgba(139, 92, 246, 0.3));
 }
 
-.brand-text {
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #007bff 0%, #17a2b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .nav-link-custom {
-  color: #0e0f0f !important;
+  color: #212529 !important;
   font-weight: 600;
   margin: 0 0.35rem;
   padding: 0.65rem 1.25rem !important;
@@ -131,11 +124,8 @@
   border: none;
   padding: 0.4rem 0.75rem;
   border-radius: 12px;
-  background: linear-gradient(135deg, 
-    rgba(0, 123, 255, 0.1) 0%, 
-    rgba(23, 162, 184, 0.1) 100%);
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+  /* box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15); */
 }
 
 .navbar-toggler-custom:hover {

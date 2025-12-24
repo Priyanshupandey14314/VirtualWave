@@ -1,68 +1,34 @@
+
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import ServiceModal from './ServiceModal';
 import './Services.css';
 
 const Services = () => {
+  const [services, setServices] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsToShow, setItemsToShow] = useState(3);
+  const [selectedService, setSelectedService] = useState(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  const services = [
-    {
-      icon: '📱',
-      title: 'Social Media Marketing',
-      description: 'Comprehensive social media strategies including Instagram, Facebook, LinkedIn marketing and ads management to boost your brand presence.',
-      color: '#ec4899'
-    },
-    {
-      icon: '💰',
-      title: 'Paid Ads',
-      description: 'Maximize ROI with expert management of Meta Ads and Google Ads campaigns tailored to your business goals.',
-      color: '#8b5cf6'
-    },
-    {
-      icon: '💬',
-      title: 'WhatsApp Marketing',
-      description: 'Reach your audience directly through bulk messaging, automated campaigns, WhatsApp software and API integration solutions.',
-      color: '#22c55e'
-    },
-    {
-      icon: '🎯',
-      title: 'Lead Generation',
-      description: 'Quality leads with B2B/B2C options, global and Pan India databases, city-wise and pin code-wise targeting for maximum conversions.',
-      color: '#f59e0b'
-    },
-    {
-      icon: '🎬',
-      title: 'Video Editing',
-      description: 'Professional video production including promotional videos, reels/shorts, corporate videos and animated explainers.',
-      color: '#ef4444'
-    },
-    {
-      icon: '🎨',
-      title: 'Graphic Designing',
-      description: 'Creative designs for posters, banners, thumbnails, flyers, social media posts, packaging and logo design.',
-      color: '#3b82f6'
-    },
-    {
-      icon: '🔍',
-      title: 'SEO Services',
-      description: 'Boost your search rankings with on-page, off-page, technical and local SEO strategies for better visibility.',
-      color: '#6366f1'
-    },
-    {
-      icon: '✍️',
-      title: 'Content Writing Services',
-      description: 'Engaging content for websites, blogs, social media, ad copies, product descriptions and LinkedIn ghost writing.',
-      color: '#14b8a6'
-    },
-    {
-      icon: '🌐',
-      title: 'Website Design & Development',
-      description: 'Custom websites including business sites, e-commerce platforms, portfolios, landing pages and website redesigns.',
-      color: '#d946ef'
-    }
-  ];
+  // Fetch Services from API
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get('http://localhost/virtual_wave_api/services.php');
+        if (Array.isArray(response.data)) {
+          setServices(response.data);
+        } else {
+          console.error('API returned non-array data:', response.data);
+          setServices([]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch services", err);
+      }
+    };
+    fetchServices();
+  }, []);
 
   // Handle Responsive Slides
   useEffect(() => {
@@ -82,7 +48,7 @@ const Services = () => {
   }, []);
 
   // Navigation Logic
-  const maxIndex = services.length - itemsToShow;
+  const maxIndex = Math.max(0, services.length - itemsToShow);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
@@ -106,10 +72,17 @@ const Services = () => {
     if (touchStartX.current - touchEndX.current < -50) prevSlide();
   };
 
+  // Helper to resolve image path
+  const getImageUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith('http')) return path;
+    return `http://localhost/virtual_wave_api/${path.replace(/\\/g, '/')}`;
+  };
+
   return (
     <section className="services-section" id="services">
       <div className="services-container">
-        
+
         {/* Header */}
         <div className="services-header">
           <h2 className="services-title">
@@ -121,72 +94,103 @@ const Services = () => {
         </div>
 
         {/* Carousel Wrapper */}
-        <div className="carousel-wrapper">
-          
-          {/* Navigation Buttons */}
-          <button className="nav-btn prev-btn" onClick={prevSlide}>&#8592;</button>
-          
-          <div 
-            className="carousel-viewport"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
-            <div 
-              className="carousel-track"
-              style={{ 
-                transform: `translateX(-${currentIndex * (100 / itemsToShow)}%)` 
-              }}
+        {services.length > 0 ? (
+          <div className="carousel-wrapper">
+
+            <button className="nav-btn prev-btn" onClick={prevSlide}>&#8592;</button>
+
+            <div
+              className="carousel-viewport"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
-              {services.map((service, index) => (
-                <div 
-                  key={index} 
-                  className="carousel-slide"
-                  style={{ flex: `0 0 ${100 / itemsToShow}%` }}
-                >
-                  <div 
-                    className="service-card"
-                    style={{ 
-                      '--neon-color': service.color,
-                    }}
+              <div
+                className="carousel-track"
+                style={{
+                  transform: `translateX(-${currentIndex * (100 / itemsToShow)}%)`
+                }}
+              >
+                {services.map((service, index) => (
+                  <div
+                    key={service._id || index}
+                    className="carousel-slide"
+                    style={{ flex: `0 0 ${100 / itemsToShow}%` }}
                   >
-                    <div className="card-bg-glow"></div>
-                    <div className="card-content">
-                      <div className="card-icon-wrapper" style={{background: service.color + '20'}}>
-                        <span className="card-icon">{service.icon}</span>
+                    <div
+                      className="service-card"
+                      style={{ '--neon-color': service.color || '#4f46e5' }}
+                      onClick={() => setSelectedService(service)}
+                    >
+                      {/* Image Top Half */}
+                      <div className="card-image-wrapper">
+                        {service.image ? (
+                          <img
+                            src={getImageUrl(service.image.startsWith('uploads') ? `/${service.image}` : service.image)}
+                            alt={service.title}
+                            className="card-image-top"
+                            onError={(e) => { e.target.style.display = 'none' }}
+                          />
+                        ) : (
+                          <div className="placeholder-image" style={{ backgroundColor: service.color || '#007bff' }}></div>
+                        )}
                       </div>
-                      <h3 className="card-title">{service.title}</h3>
-                      <p className="card-description">{service.description}</p>
-                      
-                      <button className="card-button">
-                        <span>Learn More</span>
-                        <svg className="arrow-icon" viewBox="0 0 24 24" width="24" height="24">
-                          <path fill="none" d="M0 0h24v24H0z"/>
-                          <path fill="currentColor" d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"/>
-                        </svg>
-                      </button>
+
+                      <div className="card-content">
+                        <h3 className="card-title">{service.title}</h3>
+                        <p className="card-description">
+                          {service.description.length > 80
+                            ? service.description.substring(0, 80) + '...'
+                            : service.description}
+                        </p>
+
+                        {/* Features List */}
+                        <div className="card-features-list">
+                          {Array.isArray(service.features) && service.features.slice(0, 2).map((feature, idx) => (
+                            <span key={idx} className="feature-pill">{feature}</span>
+                          ))}
+                        </div>
+
+                        <button className="card-button" style={{ marginTop: 'auto' }}>
+                          <span>Learn More</span>
+                          <svg className="arrow-icon" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path fill="currentColor" d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
 
-          <button className="nav-btn next-btn" onClick={nextSlide}>&#8594;</button>
-        </div>
+            <button className="nav-btn next-btn" onClick={nextSlide}>&#8594;</button>
+          </div>
+        ) : (
+          <div className="loading-state">Loading services...</div>
+        )}
 
         {/* Pagination Dots */}
-        <div className="carousel-dots">
-          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-            <button
-              key={idx}
-              className={`dot ${idx === currentIndex ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(idx)}
-            />
-          ))}
-        </div>
-
+        {services.length > itemsToShow && (
+          <div className="carousel-dots">
+            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+              <button
+                key={idx}
+                className={`dot ${idx === currentIndex ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(idx)}
+              />
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* Full Page Service Modal */}
+      {/* Full Page Service Modal */}
+      <ServiceModal
+        service={selectedService}
+        onClose={() => setSelectedService(null)}
+      />
     </section>
   );
 };
