@@ -1,19 +1,24 @@
 /* Admin Panels Redesign - Professional SaaS Style */
 :root {
-  --primary-color: #4f46e5;
-  --primary-hover: #4338ca;
+  --primary-color: #4338CA;
+  --primary-hover: #3730A3;
   --secondary-color: #64748b;
   --bg-dark: #0f172a;
+  /* Darkest Slate */
   --bg-sidebar: #1e293b;
-  --bg-light: #f3f4f6;
+  /* Dark Slate */
+  --bg-light: #F3F4F6;
+  /* Light Gray for Content Bg */
   --card-bg: #ffffff;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --text-light: #f8fafc;
-  --border-color: #e2e8f0;
+  --text-main: #1f2937;
+  /* Very Dark Gray */
+  --text-muted: #6b7280;
+  --text-light: #f3f4f6;
+  /* White-ish for dark backgrounds */
+  --border-color: #e5e7eb;
   --danger: #ef4444;
   --success: #10b981;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
@@ -38,16 +43,16 @@ body {
   min-height: 100vh;
   background-color: var(--bg-light);
   background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-size: 24px 24px;
 }
 
 .login-container {
   background: var(--card-bg);
-  padding: 2.5rem;
-  border-radius: 12px;
+  padding: 3rem;
+  border-radius: 16px;
   box-shadow: var(--shadow-md);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   border: 1px solid var(--border-color);
 }
 
@@ -55,8 +60,9 @@ body {
   text-align: center;
   color: var(--text-main);
   margin-bottom: 2rem;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
 }
 
 .form-group {
@@ -67,15 +73,15 @@ body {
   display: block;
   margin-bottom: 0.5rem;
   color: var(--text-main);
-  font-weight: 500;
-  font-size: 0.875rem;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .form-group input {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.95rem;
   transition: all 0.2s;
   background: #fff;
@@ -85,7 +91,7 @@ body {
 .form-group input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.15);
 }
 
 .error {
@@ -101,15 +107,15 @@ body {
 
 button {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.875rem;
   background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 button:hover {
@@ -127,7 +133,7 @@ button:hover {
 }
 
 .admin-sidebar {
-  width: 260px;
+  width: 280px;
   background-color: var(--bg-sidebar);
   color: var(--text-light);
   display: flex;
@@ -136,96 +142,108 @@ button:hover {
   height: 100vh;
   left: 0;
   top: 0;
-  z-index: 10;
+  z-index: 50;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
 }
 
 .sidebar-header {
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-header h2 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   margin: 0;
   color: white;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .sidebar-nav {
   padding: 1.5rem 1rem;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .sidebar-nav button {
   text-align: left;
   background: transparent;
   color: #94a3b8;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
-  border-radius: 6px;
+  /* Slate-400 */
+  padding: 0.875rem 1rem;
+  border-radius: 8px;
   border: none;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
 .sidebar-nav button:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.08);
   color: white;
-  transform: none;
 }
 
 .sidebar-nav button.active {
   background-color: var(--primary-color);
   color: white;
+  box-shadow: 0 4px 12px rgba(67, 56, 202, 0.4);
 }
 
 .admin-main {
   flex: 1;
-  margin-left: 260px;
+  margin-left: 280px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* Ensure content bg is light */
+  background: var(--bg-light);
 }
 
 .admin-header {
   background: var(--card-bg);
-  padding: 1rem 2rem;
+  padding: 1.25rem 2.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
-  z-index: 5;
+  z-index: 40;
 }
 
 .admin-header h1 {
   font-size: 1.5rem;
   color: var(--text-main);
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .logout-btn {
   width: auto;
-  padding: 0.5rem 1rem;
-  background-color: transparent;
-  color: var(--text-muted);
+  padding: 0.6rem 1.2rem;
+  background-color: white;
+  color: var(--text-main);
   border: 1px solid var(--border-color);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
 }
 
 .logout-btn:hover {
-  background-color: #f1f5f9;
-  color: var(--text-main);
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+  color: #000;
 }
 
 .admin-content {
-  padding: 2rem;
-  max-width: 1200px;
+  padding: 2.5rem;
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
 }
@@ -241,46 +259,54 @@ button:hover {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
 .stat-card {
   background: var(--card-bg);
-  padding: 1.5rem;
+  padding: 1.75rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .stat-card h3 {
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .stat-number {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.25rem;
+  font-weight: 800;
   color: var(--text-main);
 }
 
 .recent-activity {
   background: var(--card-bg);
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 2rem;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
 }
 
 .recent-activity h3 {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   margin-bottom: 1.5rem;
   color: var(--text-main);
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 1rem;
+  font-weight: 700;
 }
 
 .recent-activity ul {
@@ -289,11 +315,12 @@ button:hover {
 }
 
 .recent-activity li {
-  padding: 0.75rem 0;
+  padding: 1rem 0;
   border-bottom: 1px solid var(--border-color);
   color: var(--text-muted);
   display: flex;
   align-items: center;
+  font-size: 0.95rem;
 }
 
 .recent-activity li:last-child {
@@ -304,7 +331,9 @@ button:hover {
   content: "•";
   color: var(--primary-color);
   font-weight: bold;
-  margin-right: 0.5rem;
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+  line-height: 0;
 }
 
 /* ==================
@@ -323,30 +352,37 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.5rem;
 }
 
 .section-header h2 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: var(--text-main);
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .add-btn {
   width: auto;
-  padding: 0.6rem 1.25rem;
+  padding: 0.75rem 1.5rem;
   background-color: var(--primary-color);
   color: white;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(67, 56, 202, 0.2);
 }
 
 .add-btn:hover {
   background-color: var(--primary-hover);
+  box-shadow: 0 4px 6px rgba(67, 56, 202, 0.3);
 }
 
 /* Forms */
 .admin-form {
   background: #f8fafc;
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid var(--border-color);
   margin-bottom: 2rem;
 }
@@ -354,7 +390,7 @@ button:hover {
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .form-group input,
@@ -363,13 +399,14 @@ button:hover {
   background: white;
   color: var(--text-main);
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 8px;
+  padding: 0.75rem;
 }
 
 .submit-btn {
   width: auto;
-  padding: 0.75rem 2rem;
-  margin-top: 1rem;
+  padding: 0.875rem 2.5rem;
+  margin-top: 1.5rem;
 }
 
 /* Items List */
@@ -383,41 +420,56 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem;
   background: white;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  transition: box-shadow 0.2s;
+  border-radius: 12px;
+  transition: box-shadow 0.2s, border-color 0.2s;
 }
 
 .item-card:hover {
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   border-color: #cbd5e1;
 }
 
 .item-info h4 {
   color: var(--text-main);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
 }
 
 .item-info p {
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.edit-btn,
+.delete-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
 }
 
 .edit-btn {
-  width: auto;
-  padding: 0.5rem 1rem;
   background-color: white;
-  color: var(--danger);
-  border: 1px solid #fee2e2;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.edit-btn:hover {
+  background-color: #f3f4f6;
+  color: var(--primary-color);
+  border-color: #d1d5db;
 }
 
 .delete-btn {
-  width: auto;
-  padding: 0.5rem 1rem;
   background-color: white;
   color: var(--danger);
   border: 1px solid #fee2e2;
@@ -426,5 +478,5 @@ button:hover {
 .delete-btn:hover {
   background-color: #fef2f2;
   border-color: #fecaca;
-  transform: none;
+  transform: scale(1.05);
 }

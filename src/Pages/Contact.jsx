@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CustomNavbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import BackgroundShapes from "../Components/BackgroundShapes";
+
 import './Contact.css';
 import './Contact.css';
 
@@ -29,7 +29,7 @@ const ContactPage = () => {
 
   return (
     <>
-      <BackgroundShapes />
+
       <CustomNavbar />
       <section className="contact-section">
         <div className="contact-container">
@@ -130,7 +130,7 @@ const ContactPage = () => {
                 <button type="submit" className="submit-btn">
                   Send Message
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
               </form>

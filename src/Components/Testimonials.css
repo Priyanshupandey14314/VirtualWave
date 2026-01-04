@@ -1,0 +1,236 @@
+.testimonials-section {
+    padding: 100px 0;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.testimonials-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.testimonials-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.testimonials-title {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+}
+
+.gradient-text-testimonials {
+    color: var(--primary-color);
+}
+
+.testimonials-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* --- Carousel Layout --- */
+.testimonials-carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.carousel-viewport {
+    overflow: hidden;
+    width: 100%;
+    padding: 1rem 0 2rem;
+    /* Space for shadows */
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.carousel-slide {
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* --- Card Styles (Centered) --- */
+.testimonial-card {
+    background: var(--bg-color);
+    padding: 3rem 2.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-light);
+}
+
+.testimonial-card:hover::before {
+    opacity: 1;
+}
+
+.client-image-wrapper {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.client-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid transparent;
+    box-shadow: 0 8px 25px rgba(67, 56, 202, 0.15);
+    transition: all 0.3s ease;
+}
+
+.client-image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    z-index: -1;
+}
+
+
+
+.testimonial-card:hover .client-image {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(67, 56, 202, 0.25);
+}
+
+.client-info {
+    margin-bottom: 2rem;
+}
+
+.client-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+}
+
+.client-role {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.client-quote {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+
+.client-links {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    /* Center links */
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.demo-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color var(--transition-fast);
+}
+
+.demo-link:hover {
+    color: var(--primary-color);
+}
+
+/* --- Navigation Buttons --- */
+.nav-btn {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    z-index: 10;
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+}
+
+.nav-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .nav-btn {
+        display: none;
+        /* Hide arrows on mobile, rely on dots/swipe if implemented */
+    }
+}
+
+/* --- Dots --- */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+    border: none;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background-color: var(--primary-color);
+    width: 25px;
+    border-radius: 12px;
+}

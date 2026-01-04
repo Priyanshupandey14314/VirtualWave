@@ -3,20 +3,22 @@ import Hero from "../Components/Hero"
 import Services from "../Components/Services"
 import About from "../Components/About"
 import Footer from "../Components/Footer"
-import BackgroundShapes from "../Components/BackgroundShapes"
+
 import '../App.css'
 import Team from "../Components/Team"
 import FAQ from "../Components/FAQ"
+import Testimonials from "../Components/Testimonials"
 
 const Home = () => {
   return (
     <>
-      <BackgroundShapes />
+
       <CustomNavbar />
       <Hero />
       <Services />
       <About />
-      <Team/>
+      <Team />
+      <Testimonials />
       <FAQ />
       <Footer />
     </>

@@ -1,0 +1,266 @@
+/* Sidebar.css */
+
+/* Desktop Styles (Default) */
+.common-sidebar {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.sidebar-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Common Child Elements Styles */
+.sidebar-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    color: var(--text-main);
+    width: 100%;
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-btn {
+    background: none;
+    border: none;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 1rem;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    border: 1px solid transparent;
+}
+
+.category-btn:hover {
+    background: var(--primary-light);
+    border-color: var(--border-color);
+    color: var(--text-main);
+}
+
+.category-btn.active {
+    background: var(--primary-color);
+    color: var(--bg-color);
+    border-color: var(--primary-color);
+}
+
+.category-count {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Search Input Styles */
+.sidebar-search {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1);
+}
+
+/* Mobile Overlay & Sidebar Styles */
+@media (max-width: 1024px) {
+    .common-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        /* Hidden by default */
+        width: 280px;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+        background: var(--bg-color);
+        /* Solid background for mobile legibility */
+        backdrop-filter: blur(20px);
+        z-index: 1000;
+        padding: 2rem;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-right: 1px solid var(--border-color);
+        border-top: none;
+        border-bottom: none;
+        border-left: none;
+        margin: 0;
+    }
+
+    .common-sidebar.active {
+        left: 0;
+    }
+
+    /* Overlay */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 995;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Close Button (Visible mainly on mobile) */
+    .sidebar-close-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--text-main);
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        transition: all 0.2s;
+    }
+
+    .sidebar-close-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: var(--primary-color);
+    }
+}
+
+/* Hide toggle/close on desktop if strict layout implies it, 
+   but close button inside sidebar is useful if it's an overlay. 
+   On desktop it is sticky so close button might not be needed? 
+   Actually, the design shows it's always visible on desktop as sticky.
+   So close button should be hidden on desktop. */
+@media (min-width: 1025px) {
+
+    .sidebar-close-btn,
+    .sidebar-overlay {
+        display: none;
+    }
+}
+
+/* Helper Class for Toggle Button (Usually outside Sidebar component, but styling here for convenience/shared) */
+.sidebar-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 990;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--primary-light);
+    transform: scale(0);
+    /* Hidden on desktop by media query usually, but ensuring keyframe or state */
+    transition: transform 0.2s ease, bottom 0.3s;
+    font-size: 1.4rem;
+}
+
+@media (max-width: 1024px) {
+    .sidebar-toggle-btn {
+        transform: scale(1);
+    }
+
+    .sidebar-toggle-btn:active {
+        transform: scale(0.9);
+    }
+}
+
+@media (min-width: 1025px) {
+    .sidebar-toggle-btn {
+        display: none;
+    }
+}
+
+/* CTA Styles */
+.sidebar-cta {
+    background: linear-gradient(135deg, var(--primary-light) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.cta-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.cta-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--primary-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

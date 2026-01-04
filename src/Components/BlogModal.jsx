@@ -1,5 +1,6 @@
 import React from 'react';
 import './ServiceModal.css'; // Reusing modal styles
+import { getImageUrl } from '../config';
 
 const BlogModal = ({ blog, onClose }) => {
     if (!blog) return null;
@@ -12,7 +13,7 @@ const BlogModal = ({ blog, onClose }) => {
                 <div className="modal-header">
                     {blog.image && (
                         <div className="modal-image-container">
-                            <img src={`http://localhost:5000/${blog.image}`} alt={blog.title} className="modal-hero-image" />
+                            <img src={getImageUrl(blog.image)} alt={blog.title} className="modal-hero-image" />
                         </div>
                     )}
                     <div className="modal-title-section">

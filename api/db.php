@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';
-$db = 'virtualwave';
-$user = 'root';
-$pass = '';
+$host = getenv('DB_HOST') ?: 'localhost';
+$db   = getenv('DB_NAME') ?: 'virtualwave';
+$user = getenv('DB_USER') ?: 'root';
+$pass = getenv('DB_PASS') ?: '';
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);

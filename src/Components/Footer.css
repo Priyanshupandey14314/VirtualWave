@@ -1,15 +1,13 @@
 .footer-section {
   position: relative;
-  background: linear-gradient(180deg, 
-    rgba(15, 23, 42, 0.95) 0%,
-    rgba(30, 41, 59, 0.98) 100%);
+  background: rgba(8, 58, 122, 0.897);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 4rem 2rem 2rem;
   margin-top: 4rem;
   z-index: 1;
-  border-top: 1px solid rgba(139, 92, 246, 0.3);
-  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.05);
   width: 100%;
 }
 
@@ -38,19 +36,19 @@
 .footer-logo {
   height: 50px;
   width: auto;
-  filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(139, 92, 246, 0.3));
+  filter: brightness(100%) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
   transition: all 0.3s ease;
 }
 
 .footer-logo:hover {
-  filter: brightness(0) invert(1) drop-shadow(0 4px 12px rgba(139, 92, 246, 0.6));
+  filter: brightness(0) saturate(100%) invert(9%) sepia(7%) saturate(1754%) hue-rotate(199deg) brightness(94%) contrast(88%) drop-shadow(0 4px 12px rgba(67, 56, 202, 0.3));
   transform: scale(1.05);
 }
 
 .footer-description {
   font-size: 0.9375rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.7);
+  color: white;
   max-width: 280px;
 }
 
@@ -66,28 +64,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-color);
   backdrop-filter: blur(10px);
   border-radius: 10px;
-  color: rgba(255, 255, 255, 0.8);
+  /* color: var(--text-secondary); */
+  color: red;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
 }
 
 .social-link:hover {
-  background: linear-gradient(135deg, 
-    rgba(236, 72, 153, 0.3) 0%, 
-    rgba(6, 182, 212, 0.3) 100%);
-  color: #ffffff;
+  background: beige;
+  color: blue;
   transform: translateY(-3px);
-  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
-  border-color: rgba(236, 72, 153, 0.5);
+  box-shadow: 0 4px 15px rgba(67, 56, 202, 0.3);
+  border-color: var(--primary-color);
 }
 
 .footer-heading {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #ffffff;
+  color: whitesmoke;
   margin-bottom: 1.5rem;
   position: relative;
   padding-bottom: 0.75rem;
@@ -100,7 +97,8 @@
   left: 0;
   width: 40px;
   height: 2px;
-  background: linear-gradient(90deg, #ec4899, #06b6d4);
+  background: var(--accent-color);
+  /* Sky Blue */
   border-radius: 2px;
 }
 
@@ -116,7 +114,7 @@
 }
 
 .footer-links a {
-  color: rgba(255, 255, 255, 0.7);
+  color: white;
   text-decoration: none;
   font-size: 0.9375rem;
   transition: all 0.3s ease;
@@ -130,14 +128,14 @@
   position: absolute;
   left: -20px;
   opacity: 0;
-  transition: all 0.3s ease;
-  color: #ec4899;
+  transition: all 0.1s ease;
+  color: var(--accent-color);
 }
 
 .footer-links a:hover {
-  color: #ffffff;
+  color: rgba(189, 125, 120, 0.651);
   padding-left: 20px;
-  transform: translateX(5px);
+  transform: translateX(1px);
 }
 
 .footer-links a:hover::before {
@@ -156,7 +154,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: whitesmoke;
   font-size: 0.9375rem;
   line-height: 1.6;
 }
@@ -168,13 +166,13 @@
 }
 
 .footer-contact a {
-  color: rgba(255, 255, 255, 0.7);
+  color: white;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .footer-contact a:hover {
-  color: #06b6d4;
+  color: pink;
 }
 
 .footer-bottom {
@@ -183,10 +181,10 @@
 
 .footer-divider {
   height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%,
-    rgba(236, 72, 153, 0.3) 50%,
-    transparent 100%);
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 238, 0, 0.637) 50%,
+      transparent 100%);
   margin-bottom: 2rem;
 }
 
@@ -199,7 +197,7 @@
 }
 
 .copyright {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(230, 225, 225, 0.897);
   font-size: 0.875rem;
 }
 
@@ -217,7 +215,7 @@
 }
 
 .footer-legal a:hover {
-  color: #ec4899;
+  color: var(--accent-color);
 }
 
 .separator {
@@ -267,4 +265,3 @@
     height: 36px;
   }
 }
-

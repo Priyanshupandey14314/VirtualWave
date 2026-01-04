@@ -3,8 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CustomNavbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import BackgroundShapes from "../Components/BackgroundShapes";
+
 import './Blogs.css'; // We'll reuse/extend this CSS
+import Loader from '../Components/Loader';
+import { API_BASE_URL, getImageUrl } from '../config';
 
 const BlogDetails = () => {
     const { id } = useParams();
@@ -16,7 +18,7 @@ const BlogDetails = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const res = await axios.get(`http://localhost/virtual_wave_api/blogs.php?id=${id}`);
+                const res = await axios.get(`${API_BASE_URL}/blogs.php?id=${id}`);
                 setBlog(res.data);
             } catch (err) {
                 // Fallback if specific route doesn't exist yet (though I'll add it)
@@ -32,20 +34,18 @@ const BlogDetails = () => {
 
     if (loading) return (
         <>
-            <BackgroundShapes />
+
             <CustomNavbar />
-            <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                <h2>Loading...</h2>
-            </div>
+            <Loader />
             <Footer />
         </>
     );
 
     if (error || !blog) return (
         <>
-            <BackgroundShapes />
+
             <CustomNavbar />
-            <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+            <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'var(--text-main)' }}>
                 <h2>{error || "Blog post not found"}</h2>
                 <button onClick={() => navigate('/blogs')} className="secondary-btn" style={{ marginTop: '20px' }}>Back to Blogs</button>
             </div>
@@ -55,7 +55,7 @@ const BlogDetails = () => {
 
     return (
         <>
-            <BackgroundShapes />
+
             <CustomNavbar />
 
             <article className="blog-details-page">
@@ -82,7 +82,7 @@ const BlogDetails = () => {
                     <div className="blog-featured-image">
                         {blog.image ? (
                             <img
-                                src={blog.image.includes('http') ? blog.image : `http://localhost/virtual_wave_api/${blog.image}`}
+                                src={getImageUrl(blog.image)}
                                 alt={blog.title}
                                 onError={(e) => { e.target.style.display = 'none'; }}
                             />

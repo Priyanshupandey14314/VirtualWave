@@ -4,32 +4,48 @@ import axios from 'axios';
 import './Admin.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
-const API_BASE_URL = 'http://localhost/virtual_wave_api';
+import { API_BASE_URL, getImageUrl } from '../config';
+import logo from '../assets/logo.png';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [services, setServices] = useState([]);
   const [blogs, setBlogs] = useState([]);
+  const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) navigate('/admin');
+
+    const fetchData = async () => {
+      try {
+        const [servicesRes, blogsRes, messagesRes] = await Promise.all([
+          axios.get(`${API_BASE_URL}/services.php`),
+          axios.get(`${API_BASE_URL}/blogs.php`),
+          axios.get(`${API_BASE_URL}/messages.php`)
+        ]);
+        setServices(servicesRes.data);
+        setBlogs(blogsRes.data);
+        setMessages(messagesRes.data);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      }
+    };
+
     fetchData();
-  }, []);
+  }, [navigate]);
 
-  // API_BASE_URL moved to top of file
-
-
-  const fetchData = async () => {
+  const refetchData = async () => {
     try {
-      const [servicesRes, blogsRes] = await Promise.all([
+      const [servicesRes, blogsRes, messagesRes] = await Promise.all([
         axios.get(`${API_BASE_URL}/services.php`),
-        axios.get(`${API_BASE_URL}/blogs.php`)
+        axios.get(`${API_BASE_URL}/blogs.php`),
+        axios.get(`${API_BASE_URL}/messages.php`)
       ]);
       setServices(servicesRes.data);
       setBlogs(blogsRes.data);
+      setMessages(messagesRes.data);
     } catch (err) {
       console.error('Error fetching data:', err);
     }
@@ -44,8 +60,8 @@ const AdminDashboard = () => {
     if (window.confirm('Are you sure you want to delete this service?')) {
       try {
         await axios.delete(`${API_BASE_URL}/services.php?id=${id}`); // PHP delete via query param
-        fetchData();
-      } catch (err) {
+        refetchData();
+      } catch {
         alert('Error deleting service');
       }
     }
@@ -55,8 +71,8 @@ const AdminDashboard = () => {
     if (window.confirm('Are you sure you want to delete this blog?')) {
       try {
         await axios.delete(`${API_BASE_URL}/blogs.php?id=${id}`);
-        fetchData();
-      } catch (err) {
+        refetchData();
+      } catch {
         alert('Error deleting blog');
       }
     }
@@ -65,8 +81,15 @@ const AdminDashboard = () => {
   return (
     <div className="admin-dashboard">
       <aside className="admin-sidebar">
-        <div className="sidebar-header">
-          <h2>VirtualWave Admin</h2>
+        <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div
+            onClick={() => navigate('/')}
+            title="Go to Home"
+            style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+          >
+            <img src={logo} alt="VirtualWave" style={{ height: '40px', width: 'auto' }} />
+          </div>
+          <h2 style={{ fontSize: '1.2rem', margin: 0, fontWeight: 700, color: '#1e293b' }}>VirtualWave Admin</h2>
         </div>
         <nav className="sidebar-nav">
           <button
@@ -87,12 +110,54 @@ const AdminDashboard = () => {
           >
             ✍️ Blogs
           </button>
+          <button
+            className={activeSection === 'messages' ? 'active' : ''}
+            onClick={() => setActiveSection('messages')}
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+          >
+            <span>💬 Messages</span>
+            {messages.filter(m => m.is_read == 0).length > 0 && (
+              <span className="badge" style={{
+                background: '#ef4444',
+                color: 'white',
+                padding: '2px 8px',
+                borderRadius: '10px',
+                fontSize: '0.8rem'
+              }}>
+                {messages.filter(m => m.is_read == 0).length}
+              </span>
+            )}
+          </button>
         </nav>
       </aside>
 
       <div className="admin-main">
         <header className="admin-header">
-          <h1>{activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <h1>{activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}</h1>
+            {/* Navbar Notification */}
+            {messages.filter(m => m.is_read == 0).length > 0 && (
+              <div style={{ position: 'relative', cursor: 'pointer' }} onClick={() => setActiveSection('messages')}>
+                <span style={{ fontSize: '1.5rem' }}>🔔</span>
+                <span style={{
+                  position: 'absolute',
+                  top: '-5px',
+                  right: '-5px',
+                  background: '#ef4444',
+                  color: 'white',
+                  borderRadius: '50%',
+                  width: '18px',
+                  height: '18px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '0.7rem'
+                }}>
+                  {messages.filter(m => m.is_read == 0).length}
+                </span>
+              </div>
+            )}
+          </div>
           <button onClick={handleLogout} className="logout-btn">Logout</button>
         </header>
 
@@ -102,14 +167,20 @@ const AdminDashboard = () => {
             <ServicesManagement
               services={services}
               onDelete={handleDeleteService}
-              fetchData={fetchData}
+              fetchData={refetchData}
             />
           )}
           {activeSection === 'blogs' && (
             <BlogsManagement
               blogs={blogs}
               onDelete={handleDeleteBlog}
-              fetchData={fetchData}
+              fetchData={refetchData}
+            />
+          )}
+          {activeSection === 'messages' && (
+            <MessagesManagement
+              messages={messages}
+              fetchData={refetchData}
             />
           )}
         </main>
@@ -304,7 +375,7 @@ const ServicesManagement = ({ services, onDelete, fetchData }) => {
         {services.map(service => (
           <div key={service._id || service.id} className="item-card">
             <div className="item-info">
-              {service.image && <img src={`http://localhost/virtual_wave_api/${service.image}`} alt={service.title} className="item-thumbnail" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }} />}
+              {service.image && <img src={getImageUrl(service.image)} alt={service.title} className="item-thumbnail" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }} />}
               <h4>{service.title}</h4>
               <p>{service.category}</p>
             </div>
@@ -376,7 +447,7 @@ const BlogsManagement = ({ blogs, onDelete, fetchData }) => {
       await axios.post(`${API_BASE_URL}/blogs.php`, data);
       resetForm();
       fetchData();
-    } catch (err) {
+    } catch {
       alert('Error saving blog');
     }
   };
@@ -481,7 +552,7 @@ const BlogsManagement = ({ blogs, onDelete, fetchData }) => {
         {blogs.map(blog => (
           <div key={blog._id || blog.id} className="item-card">
             <div className="item-info">
-              {blog.image && <img src={`http://localhost/virtual_wave_api/${blog.image}`} alt={blog.title} className="item-thumbnail" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }} />}
+              {blog.image && <img src={getImageUrl(blog.image)} alt={blog.title} className="item-thumbnail" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }} />}
               <h4>{blog.title}</h4>
               <p>{blog.author} • {blog.category}</p>
             </div>
@@ -496,6 +567,157 @@ const BlogsManagement = ({ blogs, onDelete, fetchData }) => {
           </div>
         ))}
       </div>
+    </div>
+  );
+};
+
+const MessagesManagement = ({ messages, fetchData }) => {
+  const [selectedMessage, setSelectedMessage] = useState(null);
+
+  const handleMarkRead = async (id, currentStatus) => {
+    try {
+      await axios.put(`${API_BASE_URL}/messages.php`, { id, is_read: !currentStatus });
+      fetchData();
+    } catch (err) {
+      alert('Error updating status');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Delete this message?')) {
+      try {
+        await axios.delete(`${API_BASE_URL}/messages.php?id=${id}`);
+        fetchData();
+      } catch (err) {
+        alert('Error deleting message');
+      }
+    }
+  };
+
+  return (
+    <div className="management-section">
+      <div className="section-header">
+        <h2>Messages ({messages.filter(m => m.is_read == 0).length} New)</h2>
+        <button onClick={fetchData} className="add-btn" style={{ background: '#64748b' }}>
+          Refresh
+        </button>
+      </div>
+
+      <div className="items-list">
+        {messages.length === 0 ? <p>No messages found.</p> : messages.map(msg => (
+          <div key={msg.id} className="item-card" style={{
+            borderLeft: msg.is_read == 0 ? '4px solid #ef4444' : '4px solid transparent',
+            background: msg.is_read == 0 ? '#fef2f2' : 'white'
+          }}>
+            <div className="item-info" style={{ flex: 1 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                <h4 style={{ margin: 0 }}>
+                  {msg.service_title || 'General Enquiry'}
+                  {msg.service_category && <span style={{ fontSize: '0.8rem', fontWeight: 'normal', color: '#64748b', marginLeft: '8px' }}>({msg.service_category})</span>}
+                </h4>
+                <small style={{ color: '#64748b' }}>{new Date(msg.created_at).toLocaleString()}</small>
+              </div>
+              <p style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>{msg.user_email}</p>
+              <p style={{
+                color: '#334155',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: '500px'
+              }}>
+                {msg.message}
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', flexDirection: 'column', justifyContent: 'center' }}>
+              <button
+                onClick={() => setSelectedMessage(msg)}
+                className="btn"
+                title="View Details"
+                style={{
+                  padding: '0.4rem',
+                  border: '1px solid #cbd5e1',
+                  color: '#4f46e5',
+                  background: 'white',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                👁️
+              </button>
+              <button
+                onClick={() => handleMarkRead(msg.id, msg.is_read)}
+                className="btn"
+                title={msg.is_read == 1 ? "Mark Unread" : "Mark Read"}
+                style={{
+                  padding: '0.4rem',
+                  border: '1px solid #cbd5e1',
+                  color: msg.is_read == 1 ? '#64748b' : '#ef4444',
+                  background: 'white',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                {msg.is_read == 1 ? '📩' : '✅'}
+              </button>
+              <button onClick={() => handleDelete(msg.id)} className="delete-btn" title="Delete">
+                <i className="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {selectedMessage && (
+        <div className="service-modal-overlay" onClick={() => setSelectedMessage(null)} style={{ zIndex: 1000 }}>
+          <div className="service-modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '600px', padding: '2rem' }}>
+            <button className="modal-close-btn" onClick={() => setSelectedMessage(null)}>&times;</button>
+            <h2 className="modal-title" style={{ marginBottom: '0.5rem' }}>Message Details</h2>
+            <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid #e2e8f0', paddingBottom: '1rem' }}>
+              <p style={{ color: '#64748b', fontSize: '0.9rem' }}>From Service:</p>
+              <h4 style={{ margin: '0 0 0.5rem 0', color: '#1e293b' }}>
+                {selectedMessage.service_title}
+                {selectedMessage.service_category && <span style={{ fontSize: '0.9rem', color: '#64748b', marginLeft: '10px' }}>({selectedMessage.service_category})</span>}
+              </h4>
+
+              <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Sender:</p>
+              <p style={{ marginTop: 0, fontWeight: 'bold' }}>{selectedMessage.user_email}</p>
+
+              <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Date:</p>
+              <p style={{ marginTop: 0 }}>{new Date(selectedMessage.created_at).toLocaleString()}</p>
+            </div>
+
+            <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Message:</p>
+            <div style={{
+              background: '#f8fafc',
+              padding: '1rem',
+              borderRadius: '8px',
+              border: '1px solid #e2e8f0',
+              whiteSpace: 'pre-wrap',
+              maxHeight: '400px',
+              overflowY: 'auto'
+            }}>
+              {selectedMessage.message}
+            </div>
+
+            <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => {
+                  handleMarkRead(selectedMessage.id, selectedMessage.is_read);
+                  setSelectedMessage(null);
+                }}
+                className="action-btn"
+                style={{ background: selectedMessage.is_read == 0 ? '#10b981' : '#64748b', color: 'white' }}
+              >
+                {selectedMessage.is_read == 0 ? 'Mark as Read' : 'Mark as Unread'}
+              </button>
+              <a href={`mailto:${selectedMessage.user_email}`} className="action-btn btn-contact">
+                Reply via Email
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -2,7 +2,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import ServiceModal from './ServiceModal';
+import Loader from './Loader';
 import './Services.css';
+import { API_BASE_URL, getImageUrl } from '../config';
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -16,7 +18,7 @@ const Services = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get('http://localhost/virtual_wave_api/services.php');
+        const response = await axios.get(`${API_BASE_URL}/services.php`);
         if (Array.isArray(response.data)) {
           setServices(response.data);
         } else {
@@ -72,15 +74,9 @@ const Services = () => {
     if (touchStartX.current - touchEndX.current < -50) prevSlide();
   };
 
-  // Helper to resolve image path
-  const getImageUrl = (path) => {
-    if (!path) return null;
-    if (path.startsWith('http')) return path;
-    return `http://localhost/virtual_wave_api/${path.replace(/\\/g, '/')}`;
-  };
-
   return (
-    <section className="services-section" id="services">
+    <section className="services-section" id="services"
+      style={{}}>
       <div className="services-container">
 
         {/* Header */}
@@ -126,7 +122,7 @@ const Services = () => {
                       <div className="card-image-wrapper">
                         {service.image ? (
                           <img
-                            src={getImageUrl(service.image.startsWith('uploads') ? `/${service.image}` : service.image)}
+                            src={getImageUrl(service.image)}
                             alt={service.title}
                             className="card-image-top"
                             onError={(e) => { e.target.style.display = 'none' }}
@@ -168,7 +164,7 @@ const Services = () => {
             <button className="nav-btn next-btn" onClick={nextSlide}>&#8594;</button>
           </div>
         ) : (
-          <div className="loading-state">Loading services...</div>
+          <Loader />
         )}
 
         {/* Pagination Dots */}

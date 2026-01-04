@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CustomNavbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
-import BackgroundShapes from '../Components/BackgroundShapes';
+
 import './Services.css';
+import Loader from '../Components/Loader';
 import ServiceModal from '../Components/ServiceModal';
+import Sidebar from '../Components/Sidebar';
+import { API_BASE_URL, getImageUrl } from '../config';
+
 
 const Services = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -12,11 +16,13 @@ const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedService, setSelectedService] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get('http://localhost/virtual_wave_api/services.php');
+        const response = await axios.get(`${API_BASE_URL}/services.php`);
         if (Array.isArray(response.data)) {
           setServices(response.data);
         } else {
@@ -46,11 +52,16 @@ const Services = () => {
     return matchesCategory && matchesSearch;
   });
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <>
+      <CustomNavbar />
+      <Loader />
+      <Footer />
+    </>
+  );
 
   return (
-    <>
-      <BackgroundShapes />
+    <><>
       <CustomNavbar />
       <section className="services-section" id="services">
         <div className="services-container">
@@ -64,9 +75,16 @@ const Services = () => {
             </p>
           </div>
 
+
           <div className="services-layout">
-            {/* Sidebar */}
-            <aside className="services-sidebar">
+
+            {/* Helper Button to Open Sidebar */}
+            <button className="sidebar-toggle-btn" onClick={() => setIsSidebarOpen(true)}>
+              <i className="bi bi-funnel"></i>
+            </button>
+
+            {/* Sidebar Component */}
+            <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}>
               {/* Search */}
               <div className="sidebar-search">
                 <input
@@ -86,7 +104,10 @@ const Services = () => {
                     <li key={category.id}>
                       <button
                         className={`category-btn ${selectedCategory === category.id ? 'active' : ''}`}
-                        onClick={() => setSelectedCategory(category.id)}
+                        onClick={() => {
+                          setSelectedCategory(category.id);
+                          setIsSidebarOpen(false);
+                        }}
                       >
                         <span className="category-name">{category.name}</span>
                         <span className="category-count">({category.count})</span>
@@ -102,8 +123,7 @@ const Services = () => {
                 <p className="cta-text">Let's discuss your specific requirements and create a tailored solution for your business.</p>
                 <button className="cta-btn">Get Quote</button>
               </div>
-            </aside>
-
+            </Sidebar>
             {/* Main Content */}
             <main className="services-main">
               <div className="services-results">
@@ -111,13 +131,12 @@ const Services = () => {
                   Showing {filteredServices.length} of {services.length} services
                 </p>
               </div>
-
               <div className="services-grid">
                 {filteredServices.map(service => (
                   <div key={service._id} className="service-card-detailed">
                     <div className="service-card-header">
                       <div className="service-icon-large" style={{ background: service.color + '20', color: service.color }}>
-                        {service.image ? <img src={`http://localhost/virtual_wave_api/${service.image}`} alt={service.title} style={{ width: '50px', height: '50px' }} /> : service.icon}
+                        {service.image ? <img src={getImageUrl(service.image)} alt={service.title} style={{ width: '50px', height: '50px' }} /> : service.icon}
                       </div>
                       <div className="service-category-tag" style={{ background: service.color }}>
                         {service.category}
@@ -169,10 +188,9 @@ const Services = () => {
 
         <ServiceModal
           service={selectedService}
-          onClose={() => setSelectedService(null)}
-        />
+          onClose={() => setSelectedService(null)} />
       </section>
-    </>
+    </><Footer /></>
   );
 };
 export default Services;

@@ -1,0 +1,271 @@
+/* Google Fonts Import - Inter for that clean, premium SaaS look */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* --- Brand Identity Colors --- */
+    /* Primary: Deep Indigo - Trust, Intelligence, Innovation */
+    --primary-color: #4338CA;
+    /* Indigo 700 */
+    --primary-hover: #3730A3;
+    /* Indigo 800 */
+    --primary-light: #E0E7FF;
+    /* Indigo 100 */
+
+    /* Accent: Vivid Sky Blue - Clarity & Action */
+    --accent-color: #0EA5E9;
+    /* Sky 500 */
+    --accent-hover: #0284C7;
+    /* Sky 600 */
+
+    /* Neutrals */
+    --bg-color: #FFFFFF;
+    /* Pure White */
+    --bg-secondary: #F9FAFB;
+    /* Gray 50 - Very subtle section separation */
+    --text-main: #111827;
+    /* Gray 900 - Near black for headings */
+    --text-secondary: #4B5563;
+    /* Gray 600 - Perfect for body text */
+    --text-tertiary: #9CA3AF;
+    /* Gray 400 - Low priority text */
+    --border-color: #E5E7EB;
+    /* Gray 200 - Subtle borders */
+
+    /* --- Typography --- */
+    --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* --- Elevation & Shadows (Apple-style subtle diffusion) --- */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-hover: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+    /* --- Shapes --- */
+    --radius-sm: 0.375rem;
+    /* 6px */
+    --radius-md: 0.75rem;
+    /* 12px - Modern standard */
+    --radius-lg: 1rem;
+    /* 16px */
+    --radius-full: 9999px;
+
+    /* --- Transitions --- */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Defaults */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-main);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    /* Tighter tracking for headings */
+}
+
+p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* Utility - Container */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Utility - Buttons (Base styles) */
+button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: var(--transition-fast);
+}
+
+/* Selection Color */
+::selection {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+/* Modern Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--primary-hover), var(--accent-color));
+}
+
+/* Modern Focus Styles */
+*:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Modern Loading Animation */
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+.loading-shimmer {
+    background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-color) 50%, var(--bg-secondary) 75%);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* Modern Card Hover Effects */
+.modern-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.modern-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Gradient Text Utility */
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Modern Button Effects */
+.btn-modern {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+/* Modern Section Backgrounds */
+.section-bg-primary {
+    background: linear-gradient(135deg, var(--bg-color) 0%, var(--bg-secondary) 100%);
+    position: relative;
+}
+
+.section-bg-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(67, 56, 202, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.section-bg-accent {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-color) 100%);
+    position: relative;
+}
+
+.section-bg-accent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 30% 70%, rgba(14, 165, 233, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 70% 30%, rgba(67, 56, 202, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Modern Card Grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.card-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin: 4rem 0;
+}
+
+/* Modern Typography */
+.heading-modern {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--text-main) 0%, var(--primary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subheading-modern {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 600px;
+}

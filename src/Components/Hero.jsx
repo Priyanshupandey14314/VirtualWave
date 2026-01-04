@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './Hero.css'; 
-import bgImage from '../assets/back.png'; 
+import './Hero.css';
+import bgImage from '../assets/back2.jpg';
 import rightSideImage from '../assets/heroImg.png';
 // --- Helper Component for Animation ---
 const AnimatedCounter = ({ target, duration = 2000, suffix = "" }) => {
@@ -29,19 +29,19 @@ const AnimatedCounter = ({ target, duration = 2000, suffix = "" }) => {
 const Hero = () => {
   return (
     <section className="hero-section"
-     style={{  }}>
+      style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       {/* <div className="hero-overlay"></div>  */}
       <div className="hero-container">
         <div className="hero-main">
-          
+
           <div className="hero-left">
             <h1 className="hero-title">
               Best Digital Marketing
               <span className="gradient-text"> Solution Agency</span>
             </h1>
             <p className="hero-description">
-              Transform your business with cutting-edge digital marketing strategies. 
-              We help brands reach their full potential through innovative campaigns 
+              Transform your business with cutting-edge digital marketing strategies.
+              We help brands reach their full potential through innovative campaigns
               and data-driven solutions.
             </p>
             <div className="hero-buttons">
@@ -50,10 +50,10 @@ const Hero = () => {
             </div>
           </div>
 
-         <div className="hero-right">
+          <div className="hero-right">
             <img src={rightSideImage} alt="Digital Marketing Growth" className="hero-img-element" />
           </div>
-          
+
         </div>
         <div className="hero-stats">
           <div className="stat-item">

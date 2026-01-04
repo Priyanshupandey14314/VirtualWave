@@ -3,19 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CustomNavbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import BackgroundShapes from "../Components/BackgroundShapes";
+import Loader from "../Components/Loader";
+import Sidebar from "../Components/Sidebar";
+
 import './Blogs.css';
+import { API_BASE_URL, getImageUrl } from '../config';
+
 
 const BlogsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [blogPosts, setBlogPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // ... fetchBlogs effect
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get('http://localhost/virtual_wave_api/blogs.php');
+        const response = await axios.get(`${API_BASE_URL}/blogs.php`);
         if (Array.isArray(response.data)) {
           setBlogPosts(response.data);
         } else {
@@ -31,6 +37,7 @@ const BlogsPage = () => {
     fetchBlogs();
   }, []);
 
+  // ... categories logic
   const categories = [
     { id: 'all', name: 'All Posts', count: blogPosts.length },
     { id: 'marketing', name: 'Marketing', count: blogPosts.filter(p => p.category === 'marketing').length },
@@ -47,11 +54,17 @@ const BlogsPage = () => {
     ? blogPosts
     : blogPosts.filter(post => post.category === selectedCategory);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <>
+      <CustomNavbar />
+      <Loader />
+      <Footer />
+    </>
+  );
 
   return (
     <>
-      <BackgroundShapes />
+
       <CustomNavbar />
       <section className="blogs-section">
         <div className="blogs-container">
@@ -65,7 +78,12 @@ const BlogsPage = () => {
           </div>
 
           <div className="blogs-content">
-            <aside className="blogs-sidebar">
+            {/* Helper Button to Open Sidebar */}
+            <button className="sidebar-toggle-btn" onClick={() => setIsSidebarOpen(true)}>
+              <i className="bi bi-funnel"></i>
+            </button>
+
+            <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}>
               <div className="sidebar-categories">
                 <h3 className="sidebar-title">Categories</h3>
                 <ul className="category-list">
@@ -73,7 +91,10 @@ const BlogsPage = () => {
                     <li key={category.id}>
                       <button
                         className={`category-btn ${selectedCategory === category.id ? 'active' : ''}`}
-                        onClick={() => setSelectedCategory(category.id)}
+                        onClick={() => {
+                          setSelectedCategory(category.id);
+                          setIsSidebarOpen(false); // Close sidebar on selection
+                        }}
                       >
                         <span className="category-name">{category.name}</span>
                         <span className="category-count">({category.count})</span>
@@ -91,9 +112,10 @@ const BlogsPage = () => {
                   ))}
                 </div>
               </div>
-            </aside>
+            </Sidebar>
 
             <main className="blogs-main">
+              {/* ... main content */}
               <div className="posts-count">
                 <p>Showing {filteredPosts.length} of {blogPosts.length} articles</p>
               </div>
@@ -105,7 +127,7 @@ const BlogsPage = () => {
                       <div className="image-placeholder">
                         {post.image ? (
                           <img
-                            src={post.image.includes('http') ? post.image : `http://localhost/virtual_wave_api/${post.image}`}
+                            src={getImageUrl(post.image)}
                             alt={post.title}
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="fallback-img">VirtualWave</div>' }}
@@ -158,6 +180,7 @@ const BlogsPage = () => {
           </div>
         </div>
       </section>
+
       <Footer />
     </>
   );
