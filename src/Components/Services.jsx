@@ -132,20 +132,19 @@ const Services = () => {
                         )}
                       </div>
 
+                      {/* Divider */}
+                      <div className="card-divider" style={{
+                        width: '60%',
+                        height: '1px',
+                        background: 'var(--border-color)',
+                        margin: '0 auto 15px'
+                      }}></div>
+
                       <div className="card-content">
                         <h3 className="card-title">{service.title}</h3>
                         <p className="card-description">
-                          {service.description.length > 80
-                            ? service.description.substring(0, 80) + '...'
-                            : service.description}
+                          {service.description}
                         </p>
-
-                        {/* Features List */}
-                        <div className="card-features-list">
-                          {Array.isArray(service.features) && service.features.slice(0, 2).map((feature, idx) => (
-                            <span key={idx} className="feature-pill">{feature}</span>
-                          ))}
-                        </div>
 
                         <button className="card-button" style={{ marginTop: 'auto' }}>
                           <span>Learn More</span>

@@ -1,0 +1,220 @@
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --accent-blue: var(--primary-color);
+  --accent-cyan: var(--accent-color);
+  --privacy-gradient: var(--primary-color);
+}
+
+.privacy-section {
+  position: relative;
+  padding: 80px 2rem;
+  background: var(--bg-secondary);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.privacy-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(67, 56, 202, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+  pointer-events: none;
+}
+
+.privacy-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.privacy-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.privacy-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.gradient-text-privacy {
+  color: var(--primary-color);
+}
+
+.privacy-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 700px;
+  margin: 0 auto 1rem;
+  line-height: 1.6;
+}
+
+.privacy-last-updated {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.privacy-content {
+  margin-bottom: 4rem;
+}
+
+.privacy-section-block {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--bg-color) 0%, rgba(255, 255, 255, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(67, 56, 202, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.privacy-section-block:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(67, 56, 202, 0.15);
+}
+
+.privacy-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.privacy-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  border-radius: 2px;
+}
+
+.privacy-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.privacy-list {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.privacy-list-item {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  position: relative;
+  padding-left: 0.5rem;
+}
+
+.privacy-list-item::before {
+  content: '•';
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 1.2em;
+  position: absolute;
+  left: -1rem;
+  top: -0.1em;
+}
+
+.privacy-contact {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, var(--bg-color) 0%, rgba(255, 255, 255, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(67, 56, 202, 0.1);
+}
+
+.contact-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+}
+
+.contact-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.contact-info p {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.contact-info strong {
+  color: var(--primary-color);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .privacy-title {
+    font-size: 2.5rem;
+  }
+
+  .privacy-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .privacy-accordion-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .accordion-title {
+    font-size: 1.1rem;
+  }
+
+  .privacy-accordion-content.active {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .privacy-paragraph {
+    font-size: 0.95rem;
+  }
+
+  .privacy-contact {
+    padding: 2rem 1.5rem;
+  }
+}

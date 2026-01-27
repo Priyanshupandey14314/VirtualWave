@@ -189,14 +189,13 @@
 }
 
 .service-icon-large {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
-  background-color: var(--bg-secondary);
 }
 
 .service-category-tag {

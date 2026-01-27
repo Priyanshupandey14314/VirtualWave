@@ -87,10 +87,11 @@
 /* --- Card Styling (Modern Professional Design) --- */
 .service-card {
   position: relative;
-  background: var(--bg-color);
+  /* background-color: rgba(177, 173, 182, 0.171); */
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  height: 500px;
+  height: 420px;
+  /* Fixed height for uniformity */
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -134,32 +135,34 @@
   /* Add padding here for content */
 }
 
-/* Image Top Half */
+/* Image Centered Circle */
 .card-image-wrapper {
-  width: 100%;
-  height: 220px;
-  /* Match blog card height approximately */
-  object-fit: contain;
+  width: 120px;
+  height: 120px;
+  margin: 30px auto 20px;
+  /* Center horizontally with margin */
+  border-radius: 50%;
+  /* Circle */
   overflow: hidden;
-  border-radius: 0;
-  /* Remove border radius as parent handles it */
-  margin-bottom: 10px;
   background: transparent;
   padding: 0;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 4px solid var(--bg-color);
 }
 
-/* Icon style fallback (if used elsewhere) */
+/* Icon style fallback */
 .card-icon-wrapper {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   background: linear-gradient(135deg, var(--primary-light), rgba(14, 165, 233, 0.1));
-  border-radius: 20px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 25px;
+  margin: 30px auto 20px;
   backdrop-filter: blur(10px);
-  padding: 15px;
+  padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 12px rgba(67, 56, 202, 0.1);
   transition: all 0.3s ease;
@@ -174,11 +177,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.placeholder-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
 .service-card:hover .card-image-top {
-  transform: scale(0.9);
+  transform: scale(1.1);
 }
 
 .card-icon-image {
@@ -195,6 +205,8 @@
   color: var(--text-main);
   line-height: 1.3;
   transition: color 0.3s ease;
+  text-align: center;
+  /* Center Title */
 }
 
 .service-card:hover .card-title {
@@ -204,9 +216,20 @@
 .card-description {
   color: var(--text-secondary);
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.6;
   margin-bottom: auto;
   transition: color 0.3s ease;
+  text-align: center;
+  /* Center Description */
+  padding: 0 10px;
+
+  /* Line Clamp */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .service-card:hover .card-description {
@@ -217,16 +240,16 @@
 .card-features-list {
   display: flex;
   flex-direction: column;
-  /* Stack vertically for points */
   gap: 5px;
   margin-bottom: 15px;
   margin-top: 15px;
+  align-items: center;
+  /* Center features */
 }
 
 .feature-pill {
   font-size: 0.9rem;
   background: transparent;
-  /* No background */
   color: var(--text-secondary);
   padding: 0;
   border-radius: 0;
@@ -240,7 +263,6 @@
 .feature-pill::before {
   content: '→';
   color: var(--accent-color);
-  /* Use neon color for bullet */
   font-size: 1.2rem;
   line-height: 1;
 }
@@ -259,7 +281,6 @@
   align-items: center;
   gap: 10px;
   background: transparent !important;
-  /* Force transparent */
   border: none;
   color: var(--primary-color);
   font-weight: 600;
@@ -267,6 +288,8 @@
   cursor: pointer;
   padding: 0;
   transition: gap 0.2s ease;
+  margin: 0 auto;
+  /* Center Button */
 }
 
 .card-button:hover {

@@ -40,9 +40,13 @@ const Services = () => {
 
   const categories = [
     { id: 'all', name: 'All Services', count: services.length },
-    { id: 'marketing', name: 'Digital Marketing', count: services.filter(s => s.category === 'marketing').length },
+    { id: 'marketing', name: 'Marketing', count: services.filter(s => s.category === 'marketing').length },
     { id: 'creative', name: 'Creative Services', count: services.filter(s => s.category === 'creative').length },
-    { id: 'technical', name: 'Technical Services', count: services.filter(s => s.category === 'technical').length }
+    { id: 'technical', name: 'Technical Services', count: services.filter(s => s.category === 'technical').length },
+    { id: 'packages', name: 'Packages', count: services.filter(s => s.category === 'packages').length },
+    { id: 'subscriptions', name: 'Subscriptions', count: services.filter(s => s.category === 'subscriptions').length },
+    { id: 'tools', name: 'Tools/Software', count: services.filter(s => s.category === 'tools').length },
+    { id: 'vip', name: 'VIP', count: services.filter(s => s.category === 'vip').length }
   ];
 
   const filteredServices = services.filter(service => {
@@ -136,7 +140,7 @@ const Services = () => {
                   <div key={service._id} className="service-card-detailed">
                     <div className="service-card-header">
                       <div className="service-icon-large" style={{ background: service.color + '20', color: service.color }}>
-                        {service.image ? <img src={getImageUrl(service.image)} alt={service.title} style={{ width: '50px', height: '50px' }} /> : service.icon}
+                        {service.image ? <img src={getImageUrl(service.image)} alt={service.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} /> : service.icon}
                       </div>
                       <div className="service-category-tag" style={{ background: service.color }}>
                         {service.category}

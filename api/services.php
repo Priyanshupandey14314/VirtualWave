@@ -12,15 +12,16 @@ try {
         category VARCHAR(100),
         image VARCHAR(255),
         features TEXT,
+        subservices TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 } catch (PDOException $e) {}
 
-// SELF-HEALING: Ensure 'features' and 'detailedDescription' exist
-// We DO NOT check for color, icon, or subservices anymore.
+// SELF-HEALING: Ensure columns exist
 $columns_to_check = [
     'detailedDescription' => 'TEXT',
-    'features' => 'TEXT'
+    'features' => 'TEXT',
+    'subservices' => 'TEXT'
 ];
 
 foreach ($columns_to_check as $col => $type) {
@@ -58,10 +59,17 @@ try {
                  } else {
                      $service['features'] = [];
                  }
+
+                 // Subservices decoding
+                 if(isset($service['subservices']) && $service['subservices']) {
+                     $decoded = json_decode($service['subservices'], true);
+                     $service['subservices'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
+                 } else {
+                     $service['subservices'] = [];
+                 }
                  
                  // Standardize defaults for frontend safely
                  $service['color'] = '#007bff'; // Always return a default color for frontend UI compatibility
-                 $service['subservices'] = [];  // Always return empty array
             }
             
             if(isset($_GET['id'])) {
@@ -81,8 +89,9 @@ try {
             $detailedDescription = $_POST['detailedDescription'] ?? '';
             $category = $_POST['category'];
             
-            // Features (Expect JSON string or array)
+            // Features & Subservices (Expect JSON string or array)
             $features = $_POST['features'] ?? '[]';
+            $subservices = $_POST['subservices'] ?? '[]';
 
             // Check if this is an update
             $id = $_POST['id'] ?? null;
@@ -103,13 +112,14 @@ try {
 
             if ($id) {
                 // UPDATE
-                $sql = "UPDATE services SET title = :title, description = :description, detailedDescription = :detailedDescription, category = :category, features = :features";
+                $sql = "UPDATE services SET title = :title, description = :description, detailedDescription = :detailedDescription, category = :category, features = :features, subservices = :subservices";
                 $params = [
                     ':title' => $title,
                     ':description' => $description,
                     ':detailedDescription' => $detailedDescription,
                     ':category' => $category,
                     ':features' => $features,
+                    ':subservices' => $subservices,
                     ':id' => $id
                 ];
 
@@ -125,8 +135,7 @@ try {
 
             } else {
                 // INSERT
-                // REMOVED: color, icon, subservices from INSERT
-                $sql = "INSERT INTO services (title, description, detailedDescription, category, image, features) VALUES (:title, :description, :detailedDescription, :category, :image, :features)";
+                $sql = "INSERT INTO services (title, description, detailedDescription, category, image, features, subservices) VALUES (:title, :description, :detailedDescription, :category, :image, :features, :subservices)";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute([
                     ':title' => $title,
@@ -134,7 +143,8 @@ try {
                     ':detailedDescription' => $detailedDescription,
                     ':category' => $category,
                     ':image' => $image,
-                    ':features' => $features
+                    ':features' => $features,
+                    ':subservices' => $subservices
                 ]);
                 echo json_encode(['message' => 'Service created', 'id' => $conn->lastInsertId()]);
             }

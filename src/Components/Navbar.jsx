@@ -1,7 +1,7 @@
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/flogo.png';
 import './Navbar.css';
 
 const CustomNavbar = () => {
@@ -22,7 +22,6 @@ const CustomNavbar = () => {
             alt="VirtualWave Logo"
             className="navbar-logo"
           />
-          {/* <span className="brand-text">VirtualWave</span> */}
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"

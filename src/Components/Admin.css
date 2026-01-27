@@ -1,25 +1,38 @@
 /* Admin Panels Redesign - Professional SaaS Style */
 :root {
-  --primary-color: #4338CA;
-  --primary-hover: #3730A3;
+  /* Vibrant & Professional Palette */
+  --primary-color: #6366f1;
+  /* Indigo 500 */
+  --primary-hover: #4f46e5;
+  /* Indigo 600 */
   --secondary-color: #64748b;
+
   --bg-dark: #0f172a;
-  /* Darkest Slate */
-  --bg-sidebar: #1e293b;
-  /* Dark Slate */
-  --bg-light: #F3F4F6;
-  /* Light Gray for Content Bg */
+  /* Rich Gradient for Sidebar */
+  --bg-sidebar-start: #4338ca;
+  /* Indigo 700 */
+  --bg-sidebar-end: #312e81;
+  /* Indigo 900 */
+
+  --bg-light: #f8fafc;
+  /* Slate 50 */
   --card-bg: #ffffff;
-  --text-main: #1f2937;
-  /* Very Dark Gray */
-  --text-muted: #6b7280;
-  --text-light: #f3f4f6;
-  /* White-ish for dark backgrounds */
-  --border-color: #e5e7eb;
+
+  --text-main: #1e293b;
+  /* Slate 800 */
+  --text-muted: #64748b;
+  /* Slate 500 */
+  --text-light: #f1f5f9;
+  /* Slate 100 */
+
+  --border-color: #e2e8f0;
+  /* Slate 200 */
   --danger: #ef4444;
   --success: #10b981;
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 * {
@@ -134,8 +147,9 @@ button:hover {
 
 .admin-sidebar {
   width: 280px;
-  background-color: var(--bg-sidebar);
-  color: var(--text-light);
+  background: #ffffff;
+  border-right: 1px solid var(--border-color);
+  color: var(--text-main);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -147,17 +161,12 @@ button:hover {
 }
 
 .sidebar-header {
-  padding: 2rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.sidebar-header h2 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0;
-  color: white;
-  letter-spacing: -0.01em;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sidebar-nav {
@@ -165,15 +174,31 @@ button:hover {
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+  /* Spacing between groups */
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
 }
 
-.sidebar-nav button {
+.nav-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin: 0 0 0.5rem 1.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sidebar-nav button,
+.logout-btn-sidebar {
   text-align: left;
   background: transparent;
-  color: #94a3b8;
-  /* Slate-400 */
-  padding: 0.875rem 1rem;
+  color: var(--text-muted);
+  padding: 0.75rem 1rem;
   border-radius: 8px;
   border: none;
   display: flex;
@@ -182,17 +207,41 @@ button:hover {
   font-weight: 500;
   font-size: 0.95rem;
   transition: all 0.2s ease;
+  margin: 0;
+  cursor: pointer;
+  width: 100%;
 }
 
-.sidebar-nav button:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  color: white;
+.sidebar-nav button i,
+.logout-btn-sidebar i {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  transition: color 0.2s;
+}
+
+.sidebar-nav button:hover,
+.logout-btn-sidebar:hover {
+  background-color: #f1f5f9;
+  color: var(--text-main);
+  transform: none;
+  box-shadow: none;
+}
+
+.sidebar-nav button:hover i,
+.logout-btn-sidebar:hover i {
+  color: var(--text-main);
 }
 
 .sidebar-nav button.active {
-  background-color: var(--primary-color);
+  background: var(--bg-dark);
   color: white;
-  box-shadow: 0 4px 12px rgba(67, 56, 202, 0.4);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+  border: none;
+}
+
+.sidebar-nav button.active i {
+  color: white;
 }
 
 .admin-main {

@@ -76,123 +76,151 @@
     transform: rotate(90deg);
 }
 
-/* Modal Layout - Image Top */
-.modal-image-section {
-    width: 100%;
-    height: 200px;
-    background: #f8fafc;
+/* Modal Layout - Banner & Corner Logo */
+/* Modal Layout - Banner & Corner Logo */
+/* Simple Header Layout */
+.modal-simple-header {
+    padding: 3rem 3rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fff;
+}
+
+.modal-simple-image {
     flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
+}
+
+.simple-main-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    /* Fit completely in box */
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f1f5f9;
+    padding: 0;
+    /* No padding for full fit */
+    background: #fff;
+}
+
+.simple-no-image-placeholder {
+    width: 100px;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid #f1f5f9;
+    background: #f8fafc;
+    color: #94a3b8;
+    font-size: 2.5rem;
+    border-radius: 16px;
 }
 
-.modal-main-image {
-    max-width: 80%;
-    max-height: 80%;
-    object-fit: contain;
-    transition: transform 0.5s ease;
-}
-
-.modal-main-image:hover {
-    transform: scale(1.05);
-}
-
-.modal-details-section {
-    padding: 2.5rem;
+.modal-simple-info {
     flex: 1;
-    background: #ffffff;
-    overflow-y: auto;
-    /* Scrollable content area */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-@media (min-width: 768px) {
-    .modal-image-section {
-        height: 240px;
-    }
-
-    .modal-details-section {
-        padding: 3rem;
-    }
-}
-
-/* Typography & Content */
-.modal-category {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background: #eff6ff;
-    color: #3b82f6;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+.modal-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.5rem;
 }
 
 .modal-title {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 1.25rem;
-    line-height: 1.1;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1.2;
     letter-spacing: -0.025em;
 }
 
+.modal-category {
+    padding: 0.35rem 0.85rem;
+    /* dynamic background/color handling via inline styles */
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+
+
+
+.modal-short-desc {
+    font-size: 1rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Details Section */
+.modal-details-section {
+    padding: 2rem 3rem 3rem;
+    flex: 1;
+    background: #ffffff;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .modal-simple-header {
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .simple-main-image,
+    .simple-no-image-placeholder {
+        width: 80px;
+        height: 80px;
+    }
+
+    .modal-top-row {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+    }
+
+    .modal-details-section {
+        padding: 1.5rem;
+    }
+}
+
 .modal-description {
-    font-size: 1.05rem;
-    color: #475569;
+    font-size: 1rem;
+    color: #334155;
     line-height: 1.75;
     margin-bottom: 2.5rem;
     white-space: pre-wrap;
 }
 
-/* Features List */
-.modal-features-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.modal-features-list {
-    list-style: none;
-    padding: 0;
+/* Sub Services List (Grid Layout) */
+.sub-services-list {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.75rem;
-    margin-bottom: 3rem;
-}
-
-.modal-feature-item {
-    background: #f8fafc;
-    padding: 0.875rem 1rem;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    display: flex;
-    align-items: center;
-    color: #334155;
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-.modal-feature-item::before {
-    content: "✓";
-    color: #10b981;
-    font-weight: 800;
-    margin-right: 0.75rem;
+    gap: 12px;
 }
 
 @media (min-width: 768px) {
-    .modal-features-list {
-        grid-template-columns: 1fr 1fr;
+    .sub-services-list {
+        grid-template-columns: repeat(2, 1fr);
     }
+}
+
+.sub-service-item {
+    transition: all 0.3s ease;
 }
 
 /* Contact Actions */

@@ -81,53 +81,70 @@ const AdminDashboard = () => {
   return (
     <div className="admin-dashboard">
       <aside className="admin-sidebar">
-        <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <div className="sidebar-header" style={{ display: 'flex', justifyContent: 'center', padding: '2rem 1rem' }}>
           <div
             onClick={() => navigate('/')}
             title="Go to Home"
-            style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+            style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', width: '100%' }}
           >
-            <img src={logo} alt="VirtualWave" style={{ height: '40px', width: 'auto' }} />
+            <img src={logo} alt="VirtualWave" style={{ height: '70px', width: 'auto', objectFit: 'contain' }} />
           </div>
-          <h2 style={{ fontSize: '1.2rem', margin: 0, fontWeight: 700, color: '#1e293b' }}>VirtualWave Admin</h2>
         </div>
         <nav className="sidebar-nav">
-          <button
-            className={activeSection === 'dashboard' ? 'active' : ''}
-            onClick={() => setActiveSection('dashboard')}
-          >
-            📊 Dashboard
-          </button>
-          <button
-            className={activeSection === 'services' ? 'active' : ''}
-            onClick={() => setActiveSection('services')}
-          >
-            🛠️ Services
-          </button>
-          <button
-            className={activeSection === 'blogs' ? 'active' : ''}
-            onClick={() => setActiveSection('blogs')}
-          >
-            ✍️ Blogs
-          </button>
-          <button
-            className={activeSection === 'messages' ? 'active' : ''}
-            onClick={() => setActiveSection('messages')}
-            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-          >
-            <span>💬 Messages</span>
-            {messages.filter(m => m.is_read == 0).length > 0 && (
-              <span className="badge" style={{
-                background: '#ef4444',
-                color: 'white',
-                padding: '2px 8px',
-                borderRadius: '10px',
-                fontSize: '0.8rem'
-              }}>
-                {messages.filter(m => m.is_read == 0).length}
-              </span>
-            )}
-          </button>
+          <div className="nav-group">
+            <p className="nav-label">MENU</p>
+            <button
+              className={activeSection === 'dashboard' ? 'active' : ''}
+              onClick={() => setActiveSection('dashboard')}
+            >
+              <i className="bi bi-grid-1x2-fill"></i>
+              Dashboard
+            </button>
+            <button
+              className={activeSection === 'services' ? 'active' : ''}
+              onClick={() => setActiveSection('services')}
+            >
+              <i className="bi bi-box-seam-fill"></i>
+              Services
+            </button>
+            <button
+              className={activeSection === 'blogs' ? 'active' : ''}
+              onClick={() => setActiveSection('blogs')}
+            >
+              <i className="bi bi-pencil-square"></i>
+              Blogs
+            </button>
+            <button
+              className={activeSection === 'messages' ? 'active' : ''}
+              onClick={() => setActiveSection('messages')}
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <i className="bi bi-chat-dots-fill"></i>
+                <span>Messages</span>
+              </div>
+              {messages.filter(m => m.is_read == 0).length > 0 && (
+                <span className="badge" style={{
+                  background: '#ef4444',
+                  color: 'white',
+                  padding: '2px 6px',
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
+                  fontWeight: 'bold'
+                }}>
+                  {messages.filter(m => m.is_read == 0).length}
+                </span>
+              )}
+            </button>
+          </div>
+
+          <div className="nav-group mt-auto" style={{ marginTop: 'auto' }}>
+            <p className="nav-label">ACCOUNT</p>
+            <button onClick={handleLogout} className="logout-btn-sidebar">
+              <i className="bi bi-box-arrow-right"></i>
+              Logout
+            </button>
+          </div>
         </nav>
       </aside>
 
@@ -138,27 +155,21 @@ const AdminDashboard = () => {
             {/* Navbar Notification */}
             {messages.filter(m => m.is_read == 0).length > 0 && (
               <div style={{ position: 'relative', cursor: 'pointer' }} onClick={() => setActiveSection('messages')}>
-                <span style={{ fontSize: '1.5rem' }}>🔔</span>
+                <i className="bi bi-bell-fill" style={{ fontSize: '1.2rem', color: '#64748b' }}></i>
                 <span style={{
                   position: 'absolute',
-                  top: '-5px',
-                  right: '-5px',
+                  top: '-2px',
+                  right: '-2px',
                   background: '#ef4444',
-                  color: 'white',
+                  border: '2px solid white',
                   borderRadius: '50%',
-                  width: '18px',
-                  height: '18px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  fontSize: '0.7rem'
+                  width: '10px',
+                  height: '10px',
                 }}>
-                  {messages.filter(m => m.is_read == 0).length}
                 </span>
               </div>
             )}
           </div>
-          <button onClick={handleLogout} className="logout-btn">Logout</button>
         </header>
 
         <main className="admin-content">
@@ -228,6 +239,7 @@ const ServicesManagement = ({ services, onDelete, fetchData }) => {
     category: '',
     icon: '',
     features: '',
+    subservices: [],
     image: null
   });
 
@@ -240,6 +252,7 @@ const ServicesManagement = ({ services, onDelete, fetchData }) => {
       category: service.category,
       icon: service.icon || '',
       features: Array.isArray(service.features) ? service.features.join(', ') : service.features,
+      subservices: Array.isArray(service.subservices) ? service.subservices : [],
       image: null // Keep null, only update if new image selected
     });
     setShowForm(true);
@@ -254,10 +267,31 @@ const ServicesManagement = ({ services, onDelete, fetchData }) => {
       category: '',
       icon: '',
       features: '',
+      subservices: [],
       image: null
     });
     setEditingId(null);
     setShowForm(false);
+  };
+
+  const addSubService = () => {
+    setFormData(prev => ({
+      ...prev,
+      subservices: [...prev.subservices, { title: '', description: '' }]
+    }));
+  };
+
+  const removeSubService = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      subservices: prev.subservices.filter((_, i) => i !== index)
+    }));
+  };
+
+  const updateSubService = (index, field, value) => {
+    const newSubservices = [...formData.subservices];
+    newSubservices[index][field] = value;
+    setFormData({ ...formData, subservices: newSubservices });
   };
 
   const handleSubmit = async (e) => {
@@ -270,6 +304,8 @@ const ServicesManagement = ({ services, onDelete, fetchData }) => {
     Object.keys(formData).forEach(key => {
       if (key === 'image' && formData[key]) {
         data.append(key, formData[key]);
+      } else if (key === 'subservices') {
+        data.append(key, JSON.stringify(formData[key]));
       } else if (key !== 'image') {
         data.append(key, formData[key]);
       }
@@ -323,6 +359,10 @@ const ServicesManagement = ({ services, onDelete, fetchData }) => {
                 <option value="marketing">Marketing</option>
                 <option value="creative">Creative</option>
                 <option value="technical">Technical</option>
+                <option value="packages">Packages</option>
+                <option value="subscriptions">Subscriptions</option>
+                <option value="tools">Tools/Software</option>
+                <option value="vip">VIP</option>
               </select>
             </div>
           </div>
@@ -347,6 +387,107 @@ const ServicesManagement = ({ services, onDelete, fetchData }) => {
               placeholder="Enter detailed description here (HTML tags allowed)..."
               style={{ width: '100%', padding: '10px', marginBottom: '20px', borderRadius: '4px', border: '1px solid #ddd' }}
             />
+          </div>
+
+          {/* Sub-Services Section */}
+          <div className="form-group" style={{ background: '#f8fafc', padding: '15px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
+            <label style={{ fontWeight: 'bold', color: '#334155', display: 'block', marginBottom: '15px' }}>Sub-Services</label>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              {formData.subservices.map((sub, index) => (
+                <div key={index} style={{
+                  display: 'flex',
+                  gap: '10px',
+                  padding: '15px',
+                  background: 'white',
+                  borderRadius: '6px',
+                  border: '1px solid #e2e8f0',
+                  alignItems: 'flex-start',
+                  flexWrap: 'wrap' // Allow wrapping on small screens
+                }}>
+                  <div style={{ flex: 1, minWidth: '200px' }}> {/* Ensure inputs don't get too squashed */}
+                    <input
+                      type="text"
+                      placeholder="Sub-Service Title"
+                      value={sub.title}
+                      onChange={(e) => updateSubService(index, 'title', e.target.value)}
+                      style={{
+                        marginBottom: '8px',
+                        fontWeight: '600',
+                        width: '100%',
+                        padding: '8px',
+                        border: '1px solid #cbd5e1',
+                        borderRadius: '4px'
+                      }}
+                      required
+                    />
+                    <textarea
+                      placeholder="Description"
+                      value={sub.description}
+                      onChange={(e) => updateSubService(index, 'description', e.target.value)}
+                      rows="2"
+                      style={{
+                        width: '100%',
+                        resize: 'vertical',
+                        fontSize: '0.9rem',
+                        padding: '8px',
+                        border: '1px solid #cbd5e1',
+                        borderRadius: '4px',
+                        fontFamily: 'inherit'
+                      }}
+                      required
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeSubService(index)}
+                    style={{
+                      background: '#fee2e2',
+                      color: '#ef4444',
+                      border: 'none',
+                      padding: '8px 12px',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      alignSelf: 'flex-start',
+                      marginTop: '2px'
+                    }}
+                    title="Remove Sub-Service"
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* Add Button at Bottom - Plus Icon Style */}
+            <button
+              type="button"
+              onClick={addSubService}
+              style={{
+                marginTop: '15px',
+                width: '100%',
+                background: 'white',
+                color: '#4f46e5',
+                border: '2px dashed #cbd5e1',
+                padding: '12px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                transition: 'all 0.2s'
+              }}
+              onMouseOver={(e) => { e.currentTarget.style.borderColor = '#4f46e5'; e.currentTarget.style.background = '#eef2ff'; }}
+              onMouseOut={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.background = 'white'; }}
+            >
+              <i className="bi bi-plus-circle-fill" style={{ fontSize: '1.2rem' }}></i>
+              Add New Sub-Service
+            </button>
+
+            {formData.subservices.length === 0 && <p style={{ color: '#94a3b8', fontSize: '0.9rem', fontStyle: 'italic', textAlign: 'center', marginTop: '10px' }}>Start adding sub-services to enhance this service details.</p>}
           </div>
 
           <div className="form-group">
@@ -397,6 +538,7 @@ const ServicesManagement = ({ services, onDelete, fetchData }) => {
 const BlogsManagement = ({ blogs, onDelete, fetchData }) => {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [filterCategory, setFilterCategory] = useState('all');
   const [formData, setFormData] = useState({
     title: '',
     excerpt: '',
@@ -456,12 +598,37 @@ const BlogsManagement = ({ blogs, onDelete, fetchData }) => {
     <div className="management-section">
       <div className="section-header">
         <h2>Blogs Management</h2>
-        <button onClick={() => {
-          if (showForm) resetForm();
-          else setShowForm(true);
-        }} className="add-btn">
-          {showForm ? 'Cancel' : 'Add Blog'}
-        </button>
+
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            style={{
+              padding: '8px',
+              borderRadius: '4px',
+              border: '1px solid #cbd5e1',
+              background: 'white',
+              cursor: 'pointer'
+            }}
+          >
+            <option value="all">All Categories</option>
+            <option value="marketing">Marketing</option>
+            <option value="advertising">Advertising</option>
+            <option value="content">Content</option>
+            <option value="technology">Technology</option>
+            <option value="seo">SEO</option>
+            <option value="branding">Branding</option>
+            <option value="sales">Sales</option>
+            <option value="design">Design</option>
+          </select>
+
+          <button onClick={() => {
+            if (showForm) resetForm();
+            else setShowForm(true);
+          }} className="add-btn">
+            {showForm ? 'Cancel' : 'Add Blog'}
+          </button>
+        </div>
       </div>
 
       {showForm && (
@@ -510,12 +677,21 @@ const BlogsManagement = ({ blogs, onDelete, fetchData }) => {
           <div className="form-row">
             <div className="form-group">
               <label>Category</label>
-              <input
-                type="text"
+              <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 required
-              />
+              >
+                <option value="">Select Category</option>
+                <option value="marketing">Marketing</option>
+                <option value="advertising">Advertising</option>
+                <option value="content">Content</option>
+                <option value="technology">Technology</option>
+                <option value="seo">SEO</option>
+                <option value="branding">Branding</option>
+                <option value="sales">Sales</option>
+                <option value="design">Design</option>
+              </select>
             </div>
             <div className="form-group">
               <label>Read Time</label>
@@ -549,23 +725,25 @@ const BlogsManagement = ({ blogs, onDelete, fetchData }) => {
       )}
 
       <div className="items-list">
-        {blogs.map(blog => (
-          <div key={blog._id || blog.id} className="item-card">
-            <div className="item-info">
-              {blog.image && <img src={getImageUrl(blog.image)} alt={blog.title} className="item-thumbnail" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }} />}
-              <h4>{blog.title}</h4>
-              <p>{blog.author} • {blog.category}</p>
+        {blogs
+          .filter(blog => filterCategory === 'all' || blog.category === filterCategory)
+          .map(blog => (
+            <div key={blog._id || blog.id} className="item-card">
+              <div className="item-info">
+                {blog.image && <img src={getImageUrl(blog.image)} alt={blog.title} className="item-thumbnail" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }} />}
+                <h4>{blog.title}</h4>
+                <p>{blog.author} • {blog.category}</p>
+              </div>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={() => handleEdit(blog)} className="btn btn-sm" style={{ padding: '0.4rem 0.8rem', border: '1px solid #4f46e5', color: '#4f46e5', background: 'white', borderRadius: '4px', cursor: 'pointer' }}>
+                  <i className="bi bi-pencil-square"></i>
+                </button>
+                <button onClick={() => onDelete(blog._id || blog.id)} className="delete-btn">
+                  <i className="bi bi-trash"></i>
+                </button>
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={() => handleEdit(blog)} className="btn btn-sm" style={{ padding: '0.4rem 0.8rem', border: '1px solid #4f46e5', color: '#4f46e5', background: 'white', borderRadius: '4px', cursor: 'pointer' }}>
-                <i className="bi bi-pencil-square"></i>
-              </button>
-              <button onClick={() => onDelete(blog._id || blog.id)} className="delete-btn">
-                <i className="bi bi-trash"></i>
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
