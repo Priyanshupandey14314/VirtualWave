@@ -11,11 +11,13 @@ import AdminLogin from './Components/AdminLogin';
 import AdminDashboard from './Components/AdminDashboard';
 import ScrollToTop from './Components/ScrollToTop';
 import './App.css';
+import WhatsAppButton from './Components/WhatsAppButton';
 
 const App = () => {
   return (
     <Router>
       <ScrollToTop />
+      <WhatsAppButton />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />

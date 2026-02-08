@@ -5,7 +5,7 @@ import './Admin.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { API_BASE_URL, getImageUrl } from '../config';
-import logo from '../assets/logo.png';
+import logo from '../assets/flogo.png';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -357,7 +357,7 @@ const ServicesManagement = ({ services, onDelete, fetchData }) => {
               >
                 <option value="">Select Category</option>
                 <option value="marketing">Marketing</option>
-                <option value="creative">Creative</option>
+                <option value="advertising">Advertising</option>
                 <option value="technical">Technical</option>
                 <option value="packages">Packages</option>
                 <option value="subscriptions">Subscriptions</option>

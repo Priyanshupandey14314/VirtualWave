@@ -1,61 +1,35 @@
-# Implementation Plan - Edit/Delete for Services and Blog
+# Implementation Plan - WhatsApp Floating Button
 
 ## Goal
-Add "Edit" and "Delete" functionality for Services and Blogs in the Admin Panel, using Bootstrap symbols and styles. Ensure the Edit functionality works correctly and updates the backend.
+Add a floating WhatsApp button to the bottom-left corner of the application. When clicked, it should open a WhatsApp chat with the company's phone number (`+91 95550 31430`).
 
 ## User Review Required
-> [!IMPORTANT]
-> I will be modifying the backend PHP files (`services.php`, `blogs.php`) to handle update requests. I will also add the Bootstrap Icons CDN to `index.html` to support the requested symbols.
+> [!NOTE]
+> I am assuming the country code is +91 based on the phone number format and user context. The number used will be `919555031430`.
 
 ## Proposed Changes
 
-### Backend Updates
+### [NEW] Component: WhatsAppButton
+#### [NEW] [WhatsAppButton.jsx](file:///f:/MERN/VirtualWave/src/Components/WhatsAppButton.jsx)
+- Create a functional component that renders a floating button.
+- Use a WhatsApp SVG icon.
+- `position: fixed`, `bottom: 20px`, `left: 20px`.
+- `z-index: 1000` to ensure it stays on top.
+- Link href: `https://wa.me/919555031430`.
 
-#### [MODIFY] [services.php](file:///f:/MERN/VirtualWave/php_backend/services.php)
-- Update `POST` logic:
-    - Check if `id` is present in `POST` data.
-    - If `id` exists, perform an `UPDATE` SQL query instead of `INSERT`.
-    - Handle image upload: if new image is uploaded, update the `image` field; otherwise, keep the existing one.
+#### [NEW] [WhatsAppButton.css](file:///f:/MERN/VirtualWave/src/Components/WhatsAppButton.css)
+- Style the button (green background, white icon, shadow, hover effect).
+- Animation for attention (pulse or slight bounce).
 
-#### [MODIFY] [blogs.php](file:///f:/MERN/VirtualWave/php_backend/blogs.php)
-- Update `POST` logic:
-    - Check if `id` is present in `POST` data.
-    - If `id` exists, perform an `UPDATE` SQL query.
-    - Handle image upload similar to services.
-
-### Frontend Updates
-
-#### [MODIFY] [index.html](file:///f:/MERN/VirtualWave/index.html)
-- Add Bootstrap Icons CDN link to `<head>`.
-
-#### [MODIFY] [AdminDashboard.jsx](file:///f:/MERN/VirtualWave/src/Components/AdminDashboard.jsx)
-- **ServicesManagement**:
-    - Add `editingId` state to track which service is being edited.
-    - Add `handleEdit(service)` function:
-        - Sets `editingId`.
-        - Populates `formData` with service data.
-        - Shows the form.
-    - Update `handleSubmit`:
-        - Include `id` in `formData` if `editingId` is present.
-        - After success, reset `editingId`.
-    - Update UI:
-        - Add "Edit" button to each item in the list using Bootstrap classes and icons (e.g., `<i className="bi bi-pencil-square"></i>`).
-        - Style buttons using Bootstrap (`btn btn-sm btn-outline-primary`, `btn btn-sm btn-outline-danger`).
-- **BlogsManagement**:
-    - Add similar `editingId` and `handleEdit` logic.
-    - Update `handleSubmit` and UI similarly.
+### [MODIFY] Main Layout
+#### [MODIFY] [App.jsx](file:///f:/MERN/VirtualWave/src/App.jsx)
+- Import `WhatsAppButton`.
+- Add `<WhatsAppButton />` inside the main `Router` or `div` so it appears on all pages.
 
 ## Verification Plan
 
 ### Manual Verification
-1.  **Add Service/Blog**: Verify creating new items still works.
-2.  **Edit Service/Blog**:
-    - Click "Edit" on an item.
-    - Change some fields (title, description, image).
-    - Save.
-    - Verify the list updates with new values.
-    - Verify the backend database is updated (via page refresh).
-3.  **Delete Service/Blog**:
-    - Click "Delete".
-    - Confirm.
-    - Verify item is removed.
+1.  **Visual Check**: Verify the button appears on the bottom-left of the Home page.
+2.  **Navigation Check**: Navigate to other pages (Services, Contact) and ensure the button remains visible.
+3.  **Functional Check**: Click the button and verify it opens a new tab to `wa.me/919555031430`.
+4.  **Responsive Check**: Ensure it looks good on mobile and desktop.

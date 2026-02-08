@@ -54,8 +54,8 @@ const ContactPage = () => {
               <div className="info-card">
                 <div className="info-icon">📞</div>
                 <h3>Call Us</h3>
-                <p>+1 (555) 123-4567</p>
-                <p>+1 (555) 987-6543</p>
+                <p>095550 31430</p>
+                {/* <p>+1 (555) 987-6543</p> */}
               </div>
 
               <div className="info-card">

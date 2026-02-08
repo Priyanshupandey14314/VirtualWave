@@ -1,6 +1,7 @@
 .footer-section {
   position: relative;
-  background: rgb(33, 60, 81);
+  /* background: rgb(121, 130, 137); */
+  background-color: #121820;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 3rem 2rem 2rem;
@@ -26,6 +27,7 @@
 .footer-brand {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 }
 
 .footer-logo-wrapper {
@@ -33,10 +35,10 @@
 }
 
 .footer-logo {
-  height: 150px;
+  height: 70px;
   width: 100%;
   object-fit: contain;
-  filter: brightness(0%) saturate(0%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(0%);
+  /* filter: brightness(100%) saturate(100%) invert(50%) sepia(10%) saturate(50%) hue-rotate(360deg) brightness(100%) contrast(0%); */
   transition: all 0.3s ease;
 }
 

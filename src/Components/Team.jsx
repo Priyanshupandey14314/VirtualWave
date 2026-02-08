@@ -6,52 +6,52 @@ import './Team.css';
 const teamMembers = [
   {
     id: 1,
-    name: 'Alex Morgan',
+    name: 'Praduman Chaurasiya',
     role: 'CEO & Founder',
-    bio: 'Visionary leader with 15+ years in digital innovation, driving strategic growth and team excellence.',
+    bio: 'Visionary mind behind Virtual Wave, leading the team with smart strategies and growth-focused digital solutions.',
     image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop',
     socials: { linkedin: '#', twitter: '#' }
   },
   {
     id: 2,
-    name: 'Sarah Jenkins',
-    role: 'Head of Digital Strategy',
-    bio: 'Expert in crafting data-driven strategies that elevate brands and maximize online presence.',
+    name: 'Shashi Chaurasiya',
+    role: 'Social Media Expert',
+    bio: 'Helps brands grow online with creative content, trending strategies, and high-engagement social media campaigns..',
     image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop',
     socials: { linkedin: '#', dribbble: '#' }
   },
   {
     id: 3,
-    name: 'Marcus Chen',
-    role: 'Lead SEO Specialist',
-    bio: 'SEO maestro optimizing search rankings and driving organic traffic for global clients.',
+    name: 'Ankit Singh',
+    role: 'Stock Expert',
+    bio: 'Guides clients with practical stock market knowledge and smart investment strategies for better returns.',
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop',
     socials: { linkedin: '#', twitter: '#' }
   },
   {
     id: 4,
-    name: 'Priya Patel',
-    role: 'Creative Director',
-    bio: 'Creative visionary blending art and technology to deliver stunning visual experiences.',
+    name: 'Priyanshu Pandey',
+    role: 'Software Enginner',
+    bio: 'Builds fast, attractive, and user-friendly websites that help businesses convert visitors into customers.',
     image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop',
     socials: { dribbble: '#', instagram: '#' }
   },
-  {
-    id: 5,
-    name: 'David Oyelowo',
-    role: 'Paid Ads Manager',
-    bio: 'Results-oriented ads specialist managing multi-million dollar campaigns across platforms.',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop',
-    socials: { linkedin: '#' }
-  },
-  {
-    id: 6,
-    name: 'Emily Blunt',
-    role: 'Content Specialist',
-    bio: 'Storyteller crafting compelling narratives that engage audiences and build brand loyalty.',
-    image: 'https://images.unsplash.com/photo-1554774853-719586f8c277?q=80&w=2070&auto=format&fit=crop',
-    socials: { linkedin: '#', instagram: '#' }
-  }
+  // {
+  //   id: 5,
+  //   name: 'David Oyelowo',
+  //   role: 'Paid Ads Manager',
+  //   bio: 'Results-oriented ads specialist managing multi-million dollar campaigns across platforms.',
+  //   image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1974&auto=format&fit=crop',
+  //   socials: { linkedin: '#' }
+  // },
+  // {
+  //   id: 6,
+  //   name: 'Emily Blunt',
+  //   role: 'Content Specialist',
+  //   bio: 'Storyteller crafting compelling narratives that engage audiences and build brand loyalty.',
+  //   image: 'https://images.unsplash.com/photo-1554774853-719586f8c277?q=80&w=2070&auto=format&fit=crop',
+  //   socials: { linkedin: '#', instagram: '#' }
+  // }
 ];
 
 // Icons

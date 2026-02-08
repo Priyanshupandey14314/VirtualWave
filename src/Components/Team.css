@@ -21,14 +21,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    /* background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>'); */
     pointer-events: none;
-}
-
-/* Gradient Text for Header */
-.gradient-text-team {
-    color: var(--accent-blue);
-    font-weight: 700;
 }
 
 /* --- The Card --- */
@@ -75,6 +68,7 @@
     border-radius: 50%;
     margin: 0 auto 25px;
     overflow: hidden;
+    object-fit: contain;
     border: 4px solid transparent;
     box-shadow: 0 8px 25px rgba(67, 56, 202, 0.15);
     transition: all 0.3s ease;
@@ -116,7 +110,7 @@
     right: 0;
     bottom: 0;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(67, 56, 202, 0.9), rgba(14, 165, 233, 0.9));
+    background:#181818;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     opacity: 0;
@@ -135,7 +129,7 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(33, 91, 157, 0.837);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
     display: flex;
@@ -146,7 +140,7 @@
 }
 
 .social-icon-btn:hover {
-    background: white;
+    background: rgba(54, 117, 242, 0.979);
     color: var(--primary-color);
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -179,10 +173,10 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background-color:#1f4dd8;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -197,7 +191,7 @@
 }
 
 .carousel-control-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background:#FF8A00;
     border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-50%) scale(1.1);
 }

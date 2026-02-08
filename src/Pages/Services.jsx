@@ -41,8 +41,8 @@ const Services = () => {
   const categories = [
     { id: 'all', name: 'All Services', count: services.length },
     { id: 'marketing', name: 'Marketing', count: services.filter(s => s.category === 'marketing').length },
-    { id: 'creative', name: 'Creative Services', count: services.filter(s => s.category === 'creative').length },
-    { id: 'technical', name: 'Technical Services', count: services.filter(s => s.category === 'technical').length },
+    { id: 'advertising', name: 'Advertising', count: services.filter(s => s.category === 'advertising').length },
+    { id: 'technical', name: 'Technical', count: services.filter(s => s.category === 'technical').length },
     { id: 'packages', name: 'Packages', count: services.filter(s => s.category === 'packages').length },
     { id: 'subscriptions', name: 'Subscriptions', count: services.filter(s => s.category === 'subscriptions').length },
     { id: 'tools', name: 'Tools/Software', count: services.filter(s => s.category === 'tools').length },
