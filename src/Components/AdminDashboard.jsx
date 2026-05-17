@@ -757,7 +757,7 @@ const MessagesManagement = ({ messages, fetchData }) => {
       await axios.put(`${API_BASE_URL}/messages.php`, { id, is_read: !currentStatus });
       fetchData();
     } catch (err) {
-      alert('Error updating status');
+      alert('Error updating status'+err);
     }
   };
 
@@ -767,7 +767,7 @@ const MessagesManagement = ({ messages, fetchData }) => {
         await axios.delete(`${API_BASE_URL}/messages.php?id=${id}`);
         fetchData();
       } catch (err) {
-        alert('Error deleting message');
+        alert('Error deleting message'+err);
       }
     }
   };
