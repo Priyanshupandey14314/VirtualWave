@@ -8,24 +8,11 @@ import { API_BASE_URL, getImageUrl } from '../config';
 
 const Services = () => {
   const [services, setServices] = useState([]);
-  const [filteredServices, setFilteredServices] = useState([]);
-  const [activeCategory, setActiveCategory] = useState('All');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsToShow, setItemsToShow] = useState(3);
   const [selectedService, setSelectedService] = useState(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
-
-  const categories = [
-    { id: 'All', label: 'All Services' },
-    { id: 'marketing', label: 'Marketing' },
-    { id: 'advertising', label: 'Advertising' },
-    { id: 'technical', label: 'Technical' },
-    { id: 'packages', label: 'Packages' },
-    { id: 'subscriptions', label: 'Subscriptions' },
-    { id: 'tools', label: 'Tools/Software' },
-    { id: 'vip', label: 'VIP' }
-  ];
 
   // Fetch Services from API
   useEffect(() => {
@@ -34,11 +21,9 @@ const Services = () => {
         const response = await axios.get(`${API_BASE_URL}/services.php`);
         if (Array.isArray(response.data)) {
           setServices(response.data);
-          setFilteredServices(response.data);
         } else {
           console.error('API returned non-array data:', response.data);
           setServices([]);
-          setFilteredServices([]);
         }
       } catch (err) {
         console.error("Failed to fetch services", err);
@@ -46,18 +31,6 @@ const Services = () => {
     };
     fetchServices();
   }, []);
-
-  // Fast Filter Logic
-  useEffect(() => {
-    if (activeCategory === 'All') {
-      setFilteredServices(services);
-    } else {
-      setFilteredServices(services.filter(service =>
-        service.category && service.category.toLowerCase() === activeCategory.toLowerCase()
-      ));
-    }
-    setCurrentIndex(0); // Reset carousel when filtering
-  }, [activeCategory, services]);
 
   // Handle Responsive Slides
   useEffect(() => {
@@ -77,7 +50,7 @@ const Services = () => {
   }, []);
 
   // Navigation Logic
-  const maxIndex = Math.max(0, filteredServices.length - itemsToShow);
+  const maxIndex = Math.max(0, services.length - itemsToShow);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
@@ -116,26 +89,11 @@ const Services = () => {
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className="category-filter-container">
-          <div className="category-filter">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                className={`category-btn ${activeCategory === cat.id ? 'active' : ''}`}
-                onClick={() => setActiveCategory(cat.id)}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Carousel Wrapper */}
-        {filteredServices.length > 0 ? (
+        {services.length > 0 ? (
           <div className="carousel-wrapper">
 
-            <button className="nav-btn prev-btn" onClick={prevSlide} disabled={filteredServices.length <= itemsToShow}>&#8592;</button>
+            <button className="nav-btn prev-btn" onClick={prevSlide} disabled={services.length <= itemsToShow}>&#8592;</button>
 
             <div
               className="carousel-viewport"
@@ -149,7 +107,7 @@ const Services = () => {
                   transform: `translateX(-${currentIndex * (100 / itemsToShow)}%)`
                 }}
               >
-                {filteredServices.map((service, index) => (
+                {services.map((service, index) => (
                   <div
                     key={service._id || index}
                     className="carousel-slide"
@@ -202,17 +160,15 @@ const Services = () => {
               </div>
             </div>
 
-            <button className="nav-btn next-btn" onClick={nextSlide} disabled={filteredServices.length <= itemsToShow}>&#8594;</button>
+            <button className="nav-btn next-btn" onClick={nextSlide} disabled={services.length <= itemsToShow}>&#8594;</button>
           </div>
         ) : (
-          <div className="no-services-found">
-            {services.length === 0 ? <Loader /> : <p>No services found in this category.</p>}
-          </div>
+          <Loader />
         )}
 
 
         {/* Pagination Dots */}
-        {filteredServices.length > itemsToShow && (
+        {services.length > itemsToShow && (
           <div className="carousel-dots">
             {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
               <button

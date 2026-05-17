@@ -1,7 +1,7 @@
 import './Footer.css';
 import logo from '../assets/logoFooter.png';
 import { Link } from 'react-router-dom';
-
+const email = "info@virtualwave.com";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -68,11 +68,11 @@ const Footer = () => {
               </li>
               <li>
                 <span className="contact-icon">📧</span>
-                <a href="mailto:info@virtualwave.com">info@virtualwave.com</a>
+                <a href="mailto:info@virtualwave.com">{email}</a>
               </li>
               <li>
                 <span className="contact-icon">📞</span>
-                <a href="tel:+1234567890">+1 (234) 567-890</a>
+                <a href="tel:+1234567890">09555031430</a>
               </li>
             </ul>
           </div>

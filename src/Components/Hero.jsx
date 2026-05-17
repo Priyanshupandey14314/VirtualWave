@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './Hero.css';
 import bgImage from '../assets/back2.jpg';
 import rightSideImage from '../assets/heroImg.png';
@@ -36,17 +37,19 @@ const Hero = () => {
 
           <div className="hero-left">
             <h1 className="hero-title">
-              Best Digital Marketing
-              <span className="gradient-text"> Solution Agency</span>
+              We help Businesses & Startups
+              <span className="gradient-text"> Grow 2X with Smart Digital Marketing strategy</span>
             </h1>
             <p className="hero-description">
-              Transform your business with cutting-edge digital marketing strategies.
-              We help brands reach their full potential through innovative campaigns
-              and data-driven solutions.
+              Virtual Wave delivers data-driven SEO, paid ads, social media marketing, and high-converting websites that drive traffic, leads, and revenue.
             </p>
             <div className="hero-buttons">
-              <button className="btn btn-primary">Get Started</button>
-              <button className="btn btn-secondary">Learn More</button>
+              <Link to="/services">
+                <button className="btn btn-secondary">Explore Services</button>
+              </Link>
+              <a href="https://wa.me/919555031430" target="_blank" rel="noopener noreferrer">
+                <button className="btn btn-secondary">Get in touch</button>
+              </a>
             </div>
           </div>
 

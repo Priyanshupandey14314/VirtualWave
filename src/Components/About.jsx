@@ -29,7 +29,7 @@ const About = () => {
       <div className="about-container">
         <div className="about-header">
           <h2 className="about-title">
-            More <span className="gradient-text-about">About Us</span>
+            Why <span className="gradient-text-about">Choose Us ?</span>
           </h2>
           <p className="about-subtitle">
             We are a team of passionate digital marketing experts dedicated to helping businesses thrive online

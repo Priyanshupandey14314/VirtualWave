@@ -234,9 +234,9 @@
 }
 
 .feature-card:hover .feature-title {
-  background: var(--about-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* background: var(--about-gradient); */
+  /* -webkit-background-clip: text; */
+  -webkit-text-fill-color: rgb(237, 18, 73);
   background-clip: text;
 }
 
